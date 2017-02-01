@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -u
 
 
 read -p "Hit <enter> to idempotently setup everything Byron needs on OSX ..."
@@ -10,6 +10,8 @@ done
 
 echo CLONING REPOSITORIES
 clone_repositories
+echo SETTING UP RUST
+setup_rust
 echo DONE
 
 
