@@ -10,7 +10,14 @@ function setup_rust () {
   fi
 
   install_rust_program cargo-update cargo-install-update
+  install_rust_program cargo-edit cargo-add
   install_rust_program heatseeker hs
+  install_rust_program ripgrep rg
+  install_rust_program crates-io-cli krates
+
+  for program in loc; do
+    install_rust_program $progam
+  done
 }
 
 function install_rust_program () {
