@@ -28,9 +28,26 @@ function setup_brew () {
   brew_packages="git zsh neovim ctags tmux vcprompt zsh-completions
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
-    kubectl reattach-to-user-namespace nvm watch fswatch"
+    kubectl reattach-to-user-namespace nvm watch fswatch
+    asciinema jq netcat"
   for package in $brew_packages; do
     brew install "$package"
+  done
+
+  if ! brew info cask &> /dev/null; then
+    echo "Installing Homebrew Cask" &&
+    brew install caskroom/cask/brew-cask
+  else
+    echo "Updating Homebrew cask"
+    brew cask update
+    brew cask cleanup
+  fi
+
+  # Install cask essentials
+  cask_packages="google-chrome iterm2 sequel-pro docker
+  the-unarchiver enpass vagrant atom"
+  for package in $cask_packages; do
+    brew cask install "$package"
   done
 }
 
