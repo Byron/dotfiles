@@ -91,3 +91,5 @@ alias update="~/.dotfiles/bin/update.sh"
 # Assure rust toolchain is configured
 source $HOME/.cargo/env
 export RUST_NEW_ERROR_FORMAT=true
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
