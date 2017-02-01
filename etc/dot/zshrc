@@ -56,6 +56,7 @@ plugins=(git brew osx sudo web-search wd title zsh-syntax-highlighting)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
+source ~/.profile || { echo "Put at least your GIT_(AUTHOR|COMMITTER)_(NAME|EMAIL) as exports into ~/.profile"; }
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
