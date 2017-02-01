@@ -25,7 +25,7 @@ function setup_brew () {
     yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  brew_packages="git zsh vim neovim ctags tmux vcprompt zsh-completions
+  local brew_packages="git zsh vim neovim ctags tmux vcprompt zsh-completions
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch fswatch
@@ -44,8 +44,7 @@ function setup_brew () {
   fi
 
   # Install cask essentials
-  cask_packages="google-chrome iterm2 sequel-pro docker
-  the-unarchiver enpass vagrant atom"
+  local cask_packages="google-chrome iterm2 docker the-unarchiver atom visual-studio-code"
   for package in $cask_packages; do
     brew cask install "$package"
   done
@@ -55,6 +54,22 @@ function setup_user () {
   sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
   setup_vim
+  setup_atom
+}
+
+function setup_atom () {
+  local plugins="atom-beautify coffee-compile ex-mode git-plus language-crystal-actual
+    language-docker language-mako language-restructuredtext language-rust linter
+    linter-coffeelint linter-crystal linter-csslint linter-flake8 linter-golinter
+    linter-htmlhint linter-js-standard linter-js-yaml linter-jshint linter-jsonlint
+    linter-lua linter-markdown linter-pylint linter-python-pep8 linter-rubocop
+    linter-ruby linter-rust linter-sass-lint linter-scss-lint linter-shellcheck
+    linter-tslint linter-xmllint minimap minimap-linter pretty-json
+    preview project-manager racer react relative-numbers rust-api-docs-helper seti-icons
+    source-preview source-preview-react standardjs-snippets symbol-gen vim-mode-plus"
+  for plugin in $plugins; do
+    apm install $plugin
+  done
 }
 
 function setup_vim () {
