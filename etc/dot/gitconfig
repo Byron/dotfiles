@@ -1,0 +1,18 @@
+# This is Git's per-user configuration file.
+[push]
+	default = simple
+[diff]
+        tool = /Applications/Xcode.app/Contents/Applications/FileMerge.app/Contents/MacOS/FileMerge
+[alias]
+        co = checkout
+        br = branch
+        s = status
+        ps = push
+        pl = pull --rebase
+        amend = commit --amend --no-edit
+[pager]
+	diff = diff-so-fancy | less --tabs=1,5 -RFX
+	show = diff-so-fancy | less --tabs=1,5 -RFX
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
