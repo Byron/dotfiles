@@ -87,6 +87,8 @@ export EDITOR='vim'
 # Git Aliases
 alias glf="git pull --ff-only"
 
+alias update="~/.dotfiles/bin/update.sh"
+
 # Assure rust toolchain is configured
 source $HOME/.cargo/env
 export RUST_NEW_ERROR_FORMAT=true

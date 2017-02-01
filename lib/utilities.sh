@@ -11,3 +11,13 @@ function clone_or_pull () {
     git clone $repo $path
   fi
 }
+
+function update_everything () {
+    yes | apm update &
+    (brew update && brew upgrade; brew cleanup) &
+    (npm install npm -g && npm update -g) &
+    rustup update stable &
+    cargo install-update --all &
+
+    wait
+}
