@@ -32,7 +32,7 @@ function setup_brew () {
     asciinema jq netcat diff-so-fancy"
   local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
   for package in $brew_packages; do
-    sudo -u $brew_owner brew install "$package"
+    sudo -u $brew_owner -i brew install "$package"
   done
 
   if ! brew info cask &> /dev/null; then
