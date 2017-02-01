@@ -10,10 +10,10 @@ done
 
 echo CLONING REPOSITORIES
 clone_repositories
+echo BREWING PROGRAMS
+setup_brew
 echo SETTING UP RUST
 setup_rust
 echo LINKING DOTFILES
 link_dotfiles "$(cd $our_dir/.. && pwd)" etc/dot ~
 echo DONE
-
-

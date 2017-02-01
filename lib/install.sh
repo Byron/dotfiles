@@ -20,6 +20,20 @@ function setup_rust () {
   done
 }
 
+function setup_brew () {
+  if ! has_program brew; then
+    yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  brew_packages="git zsh neovim ctags tmux vcprompt zsh-completions
+    ruby-install curl wget crystal-lang openssl htop
+    node rlwrap valgrind qcachegrind coreutils
+    kubectl reattach-to-user-namespace nvm watch fswatch"
+  for package in $brew_packages; do
+    brew install "$package"
+  done
+}
+
 function install_rust_program () {
   local program=${1:?Need name of program to install}
   local program_name=${2-$1}
