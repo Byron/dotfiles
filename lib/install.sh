@@ -25,7 +25,7 @@ function setup_brew () {
     yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  brew_packages="git zsh neovim ctags tmux vcprompt zsh-completions
+  brew_packages="git zsh vim neovim ctags tmux vcprompt zsh-completions
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch fswatch
@@ -54,8 +54,17 @@ function setup_brew () {
 function setup_user () {
   sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+  setup_vim
+}
+
+function setup_vim () {
   # pathogen for vim
   mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+
+  for plugin in https://github.com/vim-syntastic/syntastic.git \
+                https://github.com/tpope/vim-surround.git; do
+    clone_or_pull $plugin ~/.vim/bundle
+  done
 }
 
 function install_rust_program () {
