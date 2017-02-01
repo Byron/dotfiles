@@ -72,6 +72,12 @@ function setup_atom () {
   done
 }
 
+function setup_xcode () {
+  if ! xcode-select -p; then
+    xcode-select --install
+  fi
+}
+
 function setup_vim () {
   # pathogen for vim
   mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
