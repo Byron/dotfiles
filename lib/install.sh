@@ -9,11 +9,8 @@ function setup_rust () {
     curl https://sh.rustup.rs -sSf | sh /dev/stdin -y
   fi
   
-  for program in skim; do
-    install_rust_program $program
-  done
-  
   install_rust_program cargo-update cargo-install-update
+  install_rust_program skim sk
 }
 
 function install_rust_program () {
