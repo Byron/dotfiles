@@ -16,7 +16,7 @@ function setup_rust () {
   install_rust_program crates-io-cli krates
 
   for program in loc; do
-    install_rust_program $progam
+    install_rust_program $program
   done
 }
 
