@@ -30,8 +30,9 @@ function setup_brew () {
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch fswatch
     asciinema jq netcat diff-so-fancy"
+  local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
   for package in $brew_packages; do
-    brew install "$package"
+    sudo -u $brew_owner brew install "$package"
   done
 
   if ! brew info cask &> /dev/null; then
