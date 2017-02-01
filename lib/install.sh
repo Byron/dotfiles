@@ -29,7 +29,7 @@ function setup_brew () {
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch fswatch
-    asciinema jq netcat"
+    asciinema jq netcat diff-so-fancy"
   for package in $brew_packages; do
     brew install "$package"
   done
@@ -49,6 +49,13 @@ function setup_brew () {
   for package in $cask_packages; do
     brew cask install "$package"
   done
+}
+
+function setup_user () {
+  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+  # pathogen for vim
+  mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 }
 
 function install_rust_program () {
