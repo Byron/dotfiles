@@ -12,6 +12,8 @@ echo CLONING REPOSITORIES
 clone_repositories
 echo SETTING UP RUST
 setup_rust
+echo LINKING DOTFILES
+link_dotfiles "$(cd $our_dir/.. && pwd)" etc/dot ~
 echo DONE
 
 
