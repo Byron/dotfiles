@@ -23,4 +23,7 @@ setup_user
 echo LINKING DOTFILES
 link_dotfiles "$(cd $our_dir/.. && pwd)" etc/dot ~
 
+echo APPLYING OSX SETTINGS
+setup_osx
+
 echo DONE

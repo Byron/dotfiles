@@ -118,3 +118,83 @@ function clone_repositories () {
   clone_or_pull https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   clone_or_pull https://github.com/junegunn/fzf.git ~/.fzf
 }
+
+function setup_osx () {
+  # Save to disk (not to iCloud) by default
+  defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+  # Check for software updates daily, not just once per week
+  defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
+  # Trackpad: enable tap to click for this user and for the login screen
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+
+  # Natural scrolling
+  defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+
+  # Set language and text formats
+  defaults write NSGlobalDomain AppleLanguages -array "en-DE" "de-DE"
+  defaults write NSGlobalDomain AppleLocale -string "en_DE@currency=EUR"
+  defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
+  defaults write NSGlobalDomain AppleMetricUnits -bool true
+
+  # Disable auto-correct
+  defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+  # Use scroll gesture with the Ctrl (^) modifier key to zoom
+  defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+  # Follow the keyboard focus while zoomed in
+  defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+  # Finder: show all filename extensions
+  defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+  # Finder: show status bar
+  defaults write com.apple.finder ShowStatusBar -bool true
+
+  # Finder: show path bar
+  defaults write com.apple.finder ShowPathbar -bool true
+
+  # Automatically hide and show the Dock
+  defaults write com.apple.dock autohide -bool true
+
+  # Set the icon size of Dock items to 64 pixels
+  defaults write com.apple.dock tilesize -int 64
+
+  # Hot corners
+  # Possible values:
+  #  0: no-op
+  #  2: Mission Control
+  #  3: Show application windows
+  #  4: Desktop
+  #  5: Start screen saver
+  #  6: Disable screen saver
+  #  7: Dashboard
+  # 10: Put display to sleep
+  # 11: Launchpad
+  # 12: Notification Center
+  defaults write com.apple.dock wvous-tl-corner -int 5
+  defaults write com.apple.dock wvous-tr-corner -int 4
+  defaults write com.apple.dock wvous-bl-corner -int 10
+  defaults write com.apple.dock wvous-br-corner -int 2
+
+  defaults write com.apple.dock wvous-br-modifier -int 1048576
+  defaults write com.apple.dock wvous-bl-modifier -int 1048576
+  defaults write com.apple.dock wvous-tr-modifier -int 1048576
+  defaults write com.apple.dock wvous-tl-modifier -int 1048576
+
+  # Privacy: don’t send Safari search queries to Apple
+  defaults write com.apple.Safari UniversalSearchEnabled -bool false
+  defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+
+  # Enable the Develop menu and the Web Inspector in Safari
+  defaults write com.apple.Safari IncludeDevelopMenu -bool true
+  defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+  defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+
+  # Set iTerm2 preferences
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+  defaults write com.googlecode.iterm2 PrefsCustomFolder -string $HOME/.dotfiles/etc
+
+  echo "Logout/login might be needed to apply some of the settings"
+}
