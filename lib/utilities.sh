@@ -13,8 +13,9 @@ function clone_or_pull () {
 }
 
 function update_everything () {
+    local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
     yes | apm update &
-    (brew update && brew upgrade; brew cleanup) &
+    (sudo -u $brew_owner -i brew update && sudo -u $brew_owner -i brew upgrade; sudo -u $brew_owner -i brew cleanup) &
     (npm install npm -g && npm update -g) &
     rustup update stable &
     cargo install-update --all &
