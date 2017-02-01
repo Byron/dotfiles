@@ -83,9 +83,9 @@ function setup_vim () {
   # pathogen for vim
   mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-  for plugin in https://github.com/vim-syntastic/syntastic.git \
-                https://github.com/tpope/vim-surround.git; do
-    clone_or_pull $plugin ~/.vim/bundle
+  for plugin in https://github.com/vim-syntastic/syntastic \
+                https://github.com/tpope/vim-surround; do
+    clone_or_pull $plugin ~/.vim/bundle/$(basename $plugin)
   done
 }
 
@@ -103,14 +103,26 @@ function link_dotfiles () {
   local base_name
   base_name=$(basename "$base_dir")
   local from_relative_dir=${2:?Need directory to with source dot files}
-  local to_dir=${3:?Need directory to create simlinks to}
 
-  for dotfile in $(ls $base_dir/$from_relative_dir); do
+  local dot_dir=$from_relative_dir/dot
+  local to_dir=$HOME
+  for dotfile in $(ls $base_dir/$dot_dir); do
     local dotpath=$to_dir/.$dotfile
     if ! [ -L "$dotpath" ]; then
       rm -fv $dotpath
       echo Linking $dotpath
-      ln -s $base_name/$from_relative_dir/$dotfile $dotpath
+      ln -s $base_name/$dot_dir/$dotfile $dotpath
+    fi
+  done
+
+  local dot_dir=$from_relative_dir/atom
+  local to_dir=$HOME/.atom
+  for configfile in $(ls $base_dir/$dot_dir); do
+    local dotpath=$to_dir/$configfile
+    if ! [ -L "$dotpath" ]; then
+      rm -fv $dotpath
+      echo Linking $dotpath
+      ln -s ../$base_name/$dot_dir/$configfile $dotpath
     fi
   done
 }
