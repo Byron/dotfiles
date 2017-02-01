@@ -23,7 +23,7 @@ __fzf_use_tmux__() {
 
 __fzfcmd() {
   __fzf_use_tmux__ &&
-    echo "sk -d${FZF_TMUX_HEIGHT:-40%}" || echo "sk"
+    echo "hs -d${FZF_TMUX_HEIGHT:-40%}" || echo "hs"
 }
 
 fzf-file-widget() {

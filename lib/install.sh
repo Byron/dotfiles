@@ -10,7 +10,7 @@ function setup_rust () {
   fi
   
   install_rust_program cargo-update cargo-install-update
-  install_rust_program skim sk
+  install_rust_program heatseeker hs
 }
 
 function install_rust_program () {
