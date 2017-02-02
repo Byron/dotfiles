@@ -19,6 +19,7 @@ function update_everything () {
     (npm install npm -g && npm update -g) &
     rustup update stable &
     cargo install-update --all &
+    cargo install --force --git https://github.com/jwilm/alacritty &
 
     wait
 }
