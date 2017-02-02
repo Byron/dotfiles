@@ -1,5 +1,7 @@
-#!/bin/bash -eu
+#!/bin/bash
+set -eu
 
+(
 read -p "Press <enter> to setup your dotfiles ..."
 
 dest=~/.dotfiles
@@ -11,4 +13,5 @@ else
   echo "'$dest' is already present - pulling latest"
   cd $dest && git pull --rebase
 fi
+) < /dev/tty
 
