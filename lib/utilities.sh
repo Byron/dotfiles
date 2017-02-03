@@ -24,6 +24,7 @@ function update_everything () {
       cargo +nightly install --force --git https://github.com/jwilm/alacritty &
       wait
     )) &
+    (cd ~/.dotfiles && git pull --rebase) &
 
     wait
 }
