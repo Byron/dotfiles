@@ -15,7 +15,7 @@ function setup_rust () {
   install_rust_program ripgrep rg
   install_rust_program crates-io-cli krates
 
-  for program in loc; do
+  for program in loc watchexec; do
     install_rust_program $program
   done
 }
@@ -28,7 +28,7 @@ function setup_brew () {
   local brew_packages="tmate tig git zsh vim neovim ctags tmux vcprompt zsh-completions
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
-    kubectl reattach-to-user-namespace nvm watch fswatch
+    kubectl reattach-to-user-namespace nvm watch 
     asciinema jq netcat diff-so-fancy"
   local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
   for package in $brew_packages; do
