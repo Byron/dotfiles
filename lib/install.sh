@@ -25,13 +25,13 @@ function setup_brew () {
     yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  local brew_packages="tmate tig git zsh vim neovim ctags tmux vcprompt zsh-completions
+  local brew_packages=( tmate tig git zsh vim neovim ctags tmux vcprompt zsh-completions
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch 
-    asciinema jq netcat diff-so-fancy"
+    asciinema jq netcat diff-so-fancy )
   local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
-  for package in $brew_packages; do
+  for package in "${brew_packages[@]}"; do
     sudo -u $brew_owner -i brew install "$package"
   done
 
@@ -59,7 +59,7 @@ function setup_user () {
 }
 
 function setup_atom () {
-  local plugins="atom-beautify coffee-compile ex-mode git-plus language-crystal-actual
+  local plugins=( atom-beautify coffee-compile ex-mode git-plus language-crystal-actual
     language-docker language-mako language-restructuredtext language-rust linter
     linter-coffeelint linter-crystal linter-csslint linter-flake8 linter-golinter
     linter-htmlhint linter-js-standard linter-js-yaml linter-jshint linter-jsonlint
@@ -67,8 +67,8 @@ function setup_atom () {
     linter-ruby linter-rust linter-sass-lint linter-scss-lint linter-shellcheck
     linter-tslint linter-xmllint minimap minimap-linter pretty-json
     preview project-manager racer react relative-numbers rust-api-docs-helper seti-icons
-    source-preview source-preview-react standardjs-snippets symbol-gen vim-mode-plus"
-  for plugin in $plugins; do
+    source-preview source-preview-react standardjs-snippets symbol-gen vim-mode-plus )
+  for plugin in "${plugins[@]}"; do
     apm install $plugin
   done
 }
