@@ -99,6 +99,10 @@ function gua () {
     find . -type d -name .git -maxdepth 2 | while read dir; do (cd $(dirname $dir) && git pull --rebase); done
 }
 alias update="~/.dotfiles/bin/update.sh"
+function assh () {
+    eval `ssh-agent`;
+    ssh-add
+}
 
 
 function code {
