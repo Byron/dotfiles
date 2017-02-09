@@ -90,6 +90,8 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 alias reload="exec \$SHELL"
+alias tcb=pbcopy
+alias fcb=pbpaste
 
 # Git Aliases
 alias glf="git pull --ff-only"
