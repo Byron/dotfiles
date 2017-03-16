@@ -10,6 +10,7 @@
         ps = push
         pl = pull --rebase
         amend = commit --amend --no-edit
+        gerrit = push origin HEAD:refs/for/master
 [pager]
 	diff = diff-so-fancy | less --tabs=1,5 -RFX
 	show = diff-so-fancy | less --tabs=1,5 -RFX

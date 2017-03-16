@@ -21,7 +21,6 @@ function update_everything () {
     (sudo -u $npm_owner -i npm install npm -g && sudo -u $npm_owner -i npm update -g) &
     (rustup update stable && (
       cargo +nightly install-update --all &
-      cargo install --force --git https://github.com/jwilm/alacritty &
       wait
     )) &
     (cd ~/.dotfiles && git pull --rebase) &
