@@ -25,7 +25,7 @@ function setup_brew () {
     yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  local brew_packages=( tmate tig git zsh vim neovim ctags tmux vcprompt zsh-completions
+  local brew_packages=( tmate tig git zsh vim neovim ctags tmux vcprompt
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch 
