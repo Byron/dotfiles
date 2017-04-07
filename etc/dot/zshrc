@@ -60,7 +60,6 @@ source ~/.profile || { echo "Put at least your GIT_(AUTHOR|COMMITTER)_(NAME|EMAI
 
 # Assure rust toolchain is configured
 source $HOME/.cargo/env
-export RUST_NEW_ERROR_FORMAT=true
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -90,8 +89,7 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 alias reload="exec \$SHELL"
-alias tcb=pbcopy
-alias fcb=pbpaste
+alias tmux='tmux -u'
 
 export TERM=screen-256color
 
