@@ -93,6 +93,8 @@ alias reload="exec \$SHELL"
 alias tcb=pbcopy
 alias fcb=pbpaste
 
+export TERM=screen-256color
+
 # Git Aliases
 alias glf="git pull --ff-only"
 function gua () {
