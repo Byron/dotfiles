@@ -19,7 +19,7 @@ function update_everything () {
     yes | apm update &
     (sudo -u $brew_owner -i brew update && sudo -u $brew_owner -i brew upgrade; sudo -u $brew_owner -i brew cleanup) &
     (sudo -u $npm_owner -i npm install npm -g && sudo -u $npm_owner -i npm update -g) &
-    (rustup update stable && (
+    (rustup self update && rustup update stable && (
       cargo +nightly install-update --all &
       wait
     )) &
