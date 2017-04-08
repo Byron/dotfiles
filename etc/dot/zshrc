@@ -91,7 +91,8 @@ export EDITOR='vim'
 alias reload="exec \$SHELL"
 alias tmux='tmux -u'
 
-export TERM=screen-256color
+# export TERM=screen-256color
+export TERM=screen.xterm-new
 
 # Git Aliases
 alias glf="git pull --ff-only"
