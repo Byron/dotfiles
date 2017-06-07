@@ -45,7 +45,7 @@ function setup_brew () {
   fi
 
   # Install cask essentials
-  local cask_packages="google-chrome iterm2 docker the-unarchiver atom visual-studio-code"
+  local cask_packages="google-chrome iterm2 the-unarchiver atom visual-studio-code"
   for package in $cask_packages; do
     brew cask install "$package"
   done
