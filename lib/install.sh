@@ -29,7 +29,7 @@ function setup_brew () {
     ruby-install curl wget crystal-lang openssl htop
     node rlwrap valgrind qcachegrind coreutils
     kubectl reattach-to-user-namespace nvm watch 
-    asciinema jq netcat diff-so-fancy )
+    asciinema jq netcat diff-so-fancy gnupg shellcheck )
   local brew_owner="$(/usr/bin/stat -f %Su "$(command -v brew)")"
   for package in "${brew_packages[@]}"; do
     sudo -u $brew_owner -i brew install "$package"
