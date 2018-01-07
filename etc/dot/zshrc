@@ -92,6 +92,7 @@ export EDITOR='vim'
 #
 alias reload="exec \$SHELL"
 alias tmux='tmux -u'
+alias tma='tmux attach'
 
 # export TERM=screen-256color
 export TERM=screen.xterm-new
@@ -121,3 +122,5 @@ function code {
 
 
 setopt HIST_IGNORE_SPACE
+
+alias kc=kubectl

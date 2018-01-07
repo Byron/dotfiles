@@ -18,7 +18,7 @@
 	oldNormal = red bold
 	oldHighlight = red bold 52
 [commit]
-	gpgsign = true
+	gpgsign = false
 	template = ~/.gitcommit-template
 [http]
 	sslVerify = true
