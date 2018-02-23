@@ -49,7 +49,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(tig git brew osx web-search wd title zsh-syntax-highlighting docker kubectl sublime)
+plugins=(exa tig git brew osx web-search wd title zsh-syntax-highlighting docker kubectl sublime)
 
 # User configuration
 
@@ -123,6 +123,10 @@ function code {
 
 
 setopt HIST_IGNORE_SPACE
+
+alias la='exa -abgl --git'
+alias l='exa -abgl --git'
+alias ll='exa -bgl --git'
 
 # From the plugin, for some reason the aliases don't work
 # # This command is used ALOT both below and in daily life
