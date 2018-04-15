@@ -22,3 +22,6 @@
 	template = ~/.gitcommit-template
 [http]
 	sslVerify = true
+
+[include]
+        path = ~/.gitconfig-user
