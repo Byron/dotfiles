@@ -1,4 +1,4 @@
-# Path to your oh-my-zsh installation.
+#true Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
@@ -49,7 +49,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(exa tig git brew osx web-search wd title zsh-syntax-highlighting docker kubectl sublime)
+plugins=(fly helm exa tig git brew osx web-search wd title zsh-syntax-highlighting docker kubectl sublime)
 
 # User configuration
 
@@ -182,3 +182,7 @@ alias kcuc='k config use-context'
 
 
 alias syv="sy vault"
+
+# viewing
+alias viewy="view - -c 'set syntax=yaml'"
+alias viewj="view - -c 'set syntax=json'"
