@@ -103,7 +103,6 @@ alias glf="git pull --ff-only"
 function gua () {
     find . -type d -name .git -maxdepth 2 | while read dir; do (cd $(dirname $dir) && git pull --rebase); done
 }
-alias update="~/.dotfiles/bin/update.sh"
 function assh () {
     eval `ssh-agent`;
     ssh-add
@@ -176,8 +175,10 @@ alias kru='k rollout undo'
 
 
 # Configuration
-alias kcgc='k config get-contexts'
-alias kcuc='k config use-context'
+alias kcg='k config get-contexts'
+alias kcu='k config use-context'
+alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
+
 
 
 

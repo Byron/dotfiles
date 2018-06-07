@@ -14,6 +14,7 @@ function setup_rust () {
   install_rust_program heatseeker hs
   install_rust_program ripgrep rg
   install_rust_program crates-io-cli krates
+  install_rust_program topgrade topgrade
 
   for program in loc watchexec; do
     install_rust_program $program

@@ -252,15 +252,17 @@
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>-40 -107 400 129 0 0 0 0 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>610 343 700 622 0 0 1920 1080 </string>
+	<string>290 89 700 622 0 0 1280 800 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 139 606 456 0 0 1920 1080 </string>
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>209 408 796 473 0 0 1920 1080 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>155 496 592 584 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>147 545 570 452 0 0 1920 1080 </string>
+	<string>96 63 1088 673 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>215 186 570 452 0 0 1280 800 </string>
+	<string>409 336 570 452 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>141 41 570 452 0 0 1280 800 </string>
 	<key>NeverWarnAboutShortLivedSessions_D74B92CF-7AEF-46CC-BF70-40D90FC9279C</key>
@@ -2595,7 +2597,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-16T09:07:14Z</date>
+	<date>2018-05-09T11:25:03Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -2627,6 +2629,8 @@
 	</array>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1510226304</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseAdaptiveFrameRate</key>
@@ -2649,10 +2653,12 @@
 	<string>/-+\~_.</string>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.4.beta.1</string>
+	<string>3.1.6beta5</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
