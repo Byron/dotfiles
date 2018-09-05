@@ -4,6 +4,9 @@ filetype plugin indent on
 set noswapfile
 syntax on
 
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
+autocmd FileType sh setlocal shiftwidth=2 tabstop=2
+
 set background=dark
 " colorscheme solarized   " Enable solarized colorscheme
 

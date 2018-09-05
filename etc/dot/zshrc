@@ -123,9 +123,9 @@ function code {
 
 setopt HIST_IGNORE_SPACE
 
-alias la='exa -abgl --git'
-alias l='exa -abgl --git'
-alias ll='exa -bgl --git'
+alias la='exa -abgl'
+alias l='exa -abgl'
+alias ll='exa -bgl'
 
 # From the plugin, for some reason the aliases don't work
 # # This command is used ALOT both below and in daily life
