@@ -95,8 +95,9 @@ alias tmux='tmux -u'
 alias tma='tmux attach'
 alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; attach'
 
-# export TERM=screen-256color
-export TERM=screen.xterm-new
+
+# export TERM=screen.xterm-new
+export TERM=xterm-256color
 
 # Git Aliases
 alias glf="git pull --ff-only"
