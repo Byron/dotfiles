@@ -188,3 +188,5 @@ alias syv="sy vault"
 # viewing
 alias viewy="view - -c 'set syntax=yaml'"
 alias viewj="view - -c 'set syntax=json'"
+
+alias vim="/usr/local/bin/nvim"
