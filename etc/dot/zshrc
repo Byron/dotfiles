@@ -49,7 +49,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fly helm exa tig git brew osx web-search wd title zsh-syntax-highlighting docker kubectl sublime)
+plugins=(fly helm tig git brew osx web-search wd zsh-syntax-highlighting docker kubectl sublime)
 
 # User configuration
 
@@ -189,4 +189,3 @@ alias syv="sy vault"
 alias viewy="view - -c 'set syntax=yaml'"
 alias viewj="view - -c 'set syntax=json'"
 
-alias vim="/usr/local/bin/nvim"
