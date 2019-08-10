@@ -93,7 +93,7 @@ export EDITOR='vim'
 alias reload="exec \$SHELL"
 alias tmux='tmux -u'
 alias tma='tmux attach'
-alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; attach'
+alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; new-window -n battop \; attach'
 
 
 # export TERM=screen.xterm-new
@@ -188,4 +188,6 @@ alias syv="sy vault"
 # viewing
 alias viewy="view - -c 'set syntax=yaml'"
 alias viewj="view - -c 'set syntax=json'"
+
+alias btop="battop"
 
