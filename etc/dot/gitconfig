@@ -23,3 +23,5 @@
 
 [include]
         path = ~/.gitconfig-user
+[core]
+	excludesfile = ~/.gitignore
