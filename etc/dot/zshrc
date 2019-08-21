@@ -191,3 +191,5 @@ alias viewj="view - -c 'set syntax=json'"
 
 alias btop="battop"
 
+alias j="just"
+alias jl="just --list"
