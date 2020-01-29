@@ -12,8 +12,8 @@
         amend = commit --amend --no-edit
         gerrit = push origin HEAD:refs/for/master
 [pager]
-	diff = diff-so-fancy | less --tabs=1,5 -RFX
-	show = diff-so-fancy | less --tabs=1,5 -RFX
+	diff = diffr | less --tabs=1,5 -RFX
+	show = diffr | less --tabs=1,5 -RFX
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
