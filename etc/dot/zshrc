@@ -93,7 +93,7 @@ export EDITOR='vim'
 alias reload="exec \$SHELL"
 alias tmux='tmux -u'
 alias tma='tmux attach'
-alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; new-window -n battop \; attach'
+alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; new-window -n battop \; new-window -n bandwhich \; attach'
 
 
 # export TERM=screen.xterm-new
@@ -194,4 +194,14 @@ alias btop="battop"
 alias j="just"
 alias jl="just --list"
 
+# task queue
+# cargo install pueue
+alias pup="pueued -d"
+alias pdo="pueue shutdown"
+alias pad="pueue add --"
+alias pst="pueue status"
+alias pcl="pueue clean"
+alias pq="pueue"
+
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
