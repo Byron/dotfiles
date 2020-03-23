@@ -93,7 +93,7 @@ export EDITOR='vim'
 alias reload="exec \$SHELL"
 alias tmux='tmux -u'
 alias tma='tmux attach'
-alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; new-window -n battop \; new-window -n bandwhich \; attach'
+alias tmn='tmux new-session \; rename-window project \; new-window -n project-test\; new-window -n util \; new-window -n stats \; attach'
 
 
 # export TERM=screen.xterm-new
