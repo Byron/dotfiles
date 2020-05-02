@@ -11,12 +11,11 @@ function setup_rust () {
 
   install_rust_program cargo-update cargo-install-update
   install_rust_program cargo-edit cargo-add
-  install_rust_program heatseeker hs
   install_rust_program ripgrep rg
   install_rust_program crates-io-cli krates
   install_rust_program topgrade topgrade
 
-  for program in loc watchexec; do
+  for program in watchexec; do
     install_rust_program $program
   done
 }
@@ -56,22 +55,6 @@ function setup_user () {
   sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
   setup_vim
-  setup_atom
-}
-
-function setup_atom () {
-  local plugins=( atom-beautify coffee-compile ex-mode git-plus language-crystal-actual
-    language-docker language-mako language-restructuredtext language-rust linter
-    linter-coffeelint linter-crystal linter-csslint linter-flake8 linter-golinter
-    linter-htmlhint linter-js-standard linter-js-yaml linter-jshint linter-jsonlint
-    linter-lua linter-markdown linter-pylint linter-python-pep8 linter-rubocop
-    linter-ruby linter-rust linter-sass-lint linter-scss-lint linter-shellcheck
-    linter-tslint linter-xmllint minimap minimap-linter pretty-json
-    preview project-manager racer react relative-numbers rust-api-docs-helper seti-icons
-    source-preview source-preview-react standardjs-snippets symbol-gen vim-mode-plus )
-  for plugin in "${plugins[@]}"; do
-    apm install $plugin
-  done
 }
 
 function setup_xcode () {
