@@ -114,20 +114,20 @@ function assh () {
 function code {
     if [[ $# = 0 ]]
     then
-        open -a "Visual Studio Code"
+        open -a "Visual Studio Code - Exploration"
     else
         local argPath="$1"
         [[ $1 = /* ]] && argPath="$1" || argPath="$PWD/${1#./}"
-        open -a "Visual Studio Code" "$argPath"
+        open -a "Visual Studio Code - Exploration" "$argPath"
     fi
 }
 
 
 setopt HIST_IGNORE_SPACE
 
-alias la='exa -abgl'
-alias l='exa -abgl'
-alias ll='exa -bgl'
+alias la='ls -abgl'
+alias l='ls -abgl'
+alias ll='ls -bgl'
 
 alias syv="sy vault"
 
@@ -148,5 +148,7 @@ alias pad="pueue add --"
 alias pst="pueue status"
 alias pcl="pueue clean"
 alias pq="pueue"
+
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
