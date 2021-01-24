@@ -155,9 +155,7 @@ function select-repo() {
     echo -n $root/
     {
         cd $root
-        for p in $(find . -type d -maxdepth 1 | tail +2); do
-            find $p -type d -mindepth 2 -maxdepth 2 | tail +2
-        done
+        gix find
     } | sk -q "$1"
 }
 
