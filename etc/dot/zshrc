@@ -60,9 +60,6 @@ source $ZSH/oh-my-zsh.sh
 export PATH="~/.npm-global/bin:/opt/homebrew/bin:$PATH"
 source ~/.profile || { echo "Put at least your GIT_(AUTHOR|COMMITTER)_(NAME|EMAIL) as exports into ~/.profile"; }
 
-# Assure rust toolchain is configured
-source $HOME/.cargo/env
-
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.skim.zsh ] && source ~/.skim.zsh
 
@@ -158,10 +155,8 @@ function select-repo() {
     echo -n $root/
     {
         cd $root
-        find . -type d -maxdepth 1 | tail +2
-
-        for p in github.com gitlab.com; do
-            find $p -type d -maxdepth 2 | tail +2
+        for p in $(find . -type d -maxdepth 1 | tail +2); do
+            find $p -type d -mindepth 2 -maxdepth 2 | tail +2
         done
     } | sk -q "$1"
 }
