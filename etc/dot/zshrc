@@ -155,7 +155,7 @@ function select-repo() {
     echo -n $root/
     {
         cd $root
-        gix find
+        gix t find
     } | sk -q "$1"
 }
 
@@ -165,3 +165,7 @@ function cd-repo() {
 
 alias or="cd-repo"
 alias cat="bat"
+
+eval "$(navi widget zsh)"
+alias navi="navi --finder skim"
+alias hn="hackernews_tui"
