@@ -49,7 +49,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(tig git brew osx wd docker kubectl rustup cargo)
+plugins=(tig git macos wd docker kubectl rust brew)
 
 # User configuration
 
@@ -57,7 +57,7 @@ plugins=(tig git brew osx wd docker kubectl rustup cargo)
 #
 source $ZSH/oh-my-zsh.sh
 
-export PATH="~/.npm-global/bin:/opt/homebrew/bin:$PATH"
+export PATH="~/.npm-global/bin:$PATH"
 source ~/.profile || { echo "Put at least your GIT_(AUTHOR|COMMITTER)_(NAME|EMAIL) as exports into ~/.profile"; }
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -122,9 +122,9 @@ function code {
 
 setopt HIST_IGNORE_SPACE
 
-alias la='ls -abglh'
-alias l='ls -abglh'
-alias ll='ls -bgl'
+alias la='exa -abgl'
+alias l='exa -abgl'
+alias ll='exa -bgl'
 
 alias syv="sy vault"
 
@@ -146,8 +146,7 @@ alias pst="pueue status"
 alias pcl="pueue clean"
 alias pq="pueue"
 
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
-
+# source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 function select-repo() {
@@ -155,7 +154,7 @@ function select-repo() {
     echo -n $root/
     {
         cd $root
-        gix t find
+        ein t find
     } | sk -q "$1"
 }
 
