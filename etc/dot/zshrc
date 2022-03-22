@@ -154,7 +154,7 @@ function select-repo() {
     echo -n $root/
     {
         cd $root
-        ein t find
+        ein --quiet t find
     } | sk -q "$1"
 }
 
