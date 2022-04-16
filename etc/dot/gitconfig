@@ -13,6 +13,7 @@
         gerrit = push origin HEAD:refs/for/master
 [core]
         pager = delta --dark
+        quotePath = false
 [interactive]
         diffFilter = delta --dark --color-only
 [pager]
@@ -32,5 +33,3 @@
 	required = true
 [init]
 	defaultBranch = main
-[pull]
-	rebase = true
