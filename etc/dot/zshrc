@@ -167,4 +167,6 @@ alias cat="bat"
 
 eval "$(navi widget zsh)"
 alias navi="navi --finder skim"
-alias hn="hackernews_tui"
+
+eval "$(atuin init zsh)"
+eval "$(starship init zsh)"
