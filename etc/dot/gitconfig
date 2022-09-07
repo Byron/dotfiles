@@ -1,8 +1,6 @@
 # This is Git's per-user configuration file.
 [push]
 	default = simple
-[diff]
-        tool = /Applications/Xcode.app/Contents/Applications/FileMerge.app/Contents/MacOS/FileMerge
 [alias]
         co = checkout
         br = branch
@@ -33,3 +31,19 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+
+[diff]
+        tool = difftastic
+
+[difftool]
+        prompt = false
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+# Use a pager for large output, just like other git commands.
+[pager]
+        difftool = true
+
+# `git dft` is less to type than `git difftool`.
+[alias]
+        dft = difftool
