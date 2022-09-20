@@ -163,7 +163,7 @@ function cd-repo() {
 }
 
 alias or="cd-repo"
-alias cat="bat"
+alias cat="bat --theme TwoDark"
 
 eval "$(navi widget zsh)"
 alias navi="navi --finder skim"
