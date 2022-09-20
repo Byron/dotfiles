@@ -163,6 +163,8 @@ function cd-repo() {
 }
 
 alias or="cd-repo"
+
+export BAT_THEME="TwoDark" 
 alias cat="bat --theme TwoDark"
 
 eval "$(navi widget zsh)"
