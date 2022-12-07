@@ -24,6 +24,7 @@
         path = ~/.gitconfig-user
 [core]
         excludesFile = ~/.gitignore
+        untrackedCache = false
 [init]
 	defaultBranch = main
 [filter "lfs"]

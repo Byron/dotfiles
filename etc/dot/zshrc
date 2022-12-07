@@ -170,5 +170,10 @@ alias cat="bat --theme TwoDark"
 eval "$(navi widget zsh)"
 alias navi="navi --finder skim"
 
+alias sgs="stg series"
+alias sgr="stg refresh"
+alias sgri="stg refresh --index"
+alias sgg="stg goto"
+
 eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
