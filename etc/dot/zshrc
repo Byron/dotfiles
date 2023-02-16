@@ -177,3 +177,7 @@ alias sgg="stg goto"
 
 eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
+
+export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
+
+export HOMEBREW_NO_ANALYTICS=1
