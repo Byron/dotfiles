@@ -27,6 +27,8 @@
         untrackedCache = false
 [init]
 	defaultBranch = main
+[index]
+        threads = true
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
