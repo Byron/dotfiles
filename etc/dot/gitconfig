@@ -26,7 +26,7 @@
         excludesFile = ~/.gitignore
         untrackedCache = false
 [init]
-	defaultBranch = main
+        defaultBranch = main
 [index]
         threads = true
 [filter "lfs"]
