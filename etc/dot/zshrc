@@ -51,11 +51,6 @@ DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(tig git macos wd docker kubectl rust brew)
 
-# User configuration
-#
-eval "$(brew shellenv)"
-fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
-
 # export MANPATH="/usr/local/man:$MANPATH"
 #
 source $ZSH/oh-my-zsh.sh
@@ -180,6 +175,11 @@ function cd-repo-corpus() {
     cd "$(select-corpus $@)"
 }
 
+# First and only argument is the desired term title
+function rename_title {
+  echo "\x1b]1337;SetUserVar=panetitle=$(echo -n $1 | base64)\x07"
+}
+
 alias orc="cd-repo-corpus"
 
 export BAT_THEME="TwoDark" 
@@ -198,5 +198,11 @@ eval "$(starship init zsh)"
 eval "$(rtx activate zsh)" && eval "$(rtx complete --shell zsh)"
 
 export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
+
+# User configuration
+#
+eval "$(brew shellenv)"
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
 
 export HOMEBREW_NO_ANALYTICS=1
