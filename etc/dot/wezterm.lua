@@ -22,7 +22,6 @@ end
 -- config.color_scheme = 'Neon (terminal.sexy)'
 -- config.color_scheme = 'Neon Night (Gogh)'
 
-config.hide_tab_bar_if_only_one_tab = true
 
 -- config.font = wezterm.font {
 --   family = 'Monaspace Neon',
@@ -51,6 +50,20 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     {Text=" " .. pane_title .. " "},
   }
 end)
+
+config.hide_tab_bar_if_only_one_tab = false
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
+config.text_background_opacity = 1.0
+config.window_background_opacity = 0.918
+config.macos_window_background_blur = 40
+config.tab_max_width = 999
+config.max_fps = 120
+
+config.quick_select_patterns = {
+  -- match filenames
+  '[a-zA-Z0-9-_/]+\\.\\w+',
+}
 
 -- and finally, return the configuration to wezterm
 return config

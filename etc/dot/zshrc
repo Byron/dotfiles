@@ -197,7 +197,7 @@ eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
 eval "$(rtx activate zsh)" && eval "$(rtx complete --shell zsh)"
 
-export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
+export PATH="/opt/homebrew/opt/awscli@1/bin:/Applications/WezTerm.app/Contents/MacOS:$PATH"
 
 # User configuration
 #
