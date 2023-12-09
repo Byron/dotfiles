@@ -1,5 +1,6 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+local mux = wezterm.mux
 
 -- This table will hold the configuration.
 local config = {}
@@ -49,6 +50,20 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   return {
     {Text=" " .. pane_title .. " "},
   }
+end)
+
+wezterm.on('gui-startup', function()
+  local _, first_pane, window = mux.spawn_window {cwd = '/Users/byron/dev/github.com/builditdev/buildit-cli'}
+  local _, second_pane, _ = window:spawn_tab {cwd = '/Users/byron/dev/github.com/builditdev/buildit-server'}
+  local _, third_pane, _ = window:spawn_tab {cwd = '/Users/byron/dev/github.com/Byron/gitoxide'}
+  local _, fourth_pane, _ = window:spawn_tab {cwd = '/Users/byron/dev/github.com/git/git'}
+  local _, other_pane, _ = window:spawn_tab {}
+
+  first_pane:send_text "rename_title buildit-cli\n"
+  second_pane:send_text "rename_title buildit-server\n"
+  third_pane:send_text "rename_title gitoxide\n"
+  fourth_pane:send_text "rename_title git\n"
+  other_pane:send_text "rename_title other\n"
 end)
 
 config.hide_tab_bar_if_only_one_tab = false

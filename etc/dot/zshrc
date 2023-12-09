@@ -195,7 +195,7 @@ alias sgg="stg goto"
 
 eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
-eval "$(rtx activate zsh)" && eval "$(rtx complete --shell zsh)"
+# eval "$(rtx activate zsh)" && eval "$(rtx complete --shell zsh)"
 
 export PATH="/opt/homebrew/opt/awscli@1/bin:/Applications/WezTerm.app/Contents/MacOS:$PATH"
 
@@ -206,3 +206,4 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 
 export HOMEBREW_NO_ANALYTICS=1
+source ~/.zshenv
