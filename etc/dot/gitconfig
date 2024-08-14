@@ -17,7 +17,6 @@
 [pager]
         show = delta --dark
 [commit]
-	gpgsign = true
 	template = ~/.gitcommit-template
 
 [include]
@@ -50,3 +49,6 @@
 # `git dft` is less to type than `git difftool`.
 [alias]
         dft = difftool
+
+[push]
+        default = upstream
