@@ -59,7 +59,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 source ~/.profile || { echo "Put at least your GIT_(AUTHOR|COMMITTER)_(NAME|EMAIL) as exports into ~/.profile"; }
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.skim.zsh ] && source ~/.skim.zsh
+# [ -f ~/.skim.zsh ] && source ~/.skim.zsh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -193,7 +193,7 @@ alias sgr="stg refresh"
 alias sgri="stg refresh --index"
 alias sgg="stg goto"
 
-eval "$(atuin init zsh)"
+# eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
 # eval "$(rtx activate zsh)" && eval "$(rtx complete --shell zsh)"
 
@@ -207,3 +207,10 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 export HOMEBREW_NO_ANALYTICS=1
 source ~/.zshenv
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/byron/.cache/lm-studio/bin"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
