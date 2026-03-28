@@ -82,6 +82,30 @@ function install_rust_program () {
   fi
 }
 
+function link_tree () {
+  local source_root=${1:?Need source root directory}
+  local destination_root=${2:?Need destination root directory}
+
+  if [ -d "$source_root" ]; then
+    while IFS= read -r -d '' source_file; do
+      local relative_path=${source_file#$source_root/}
+      local destination_path=$destination_root/$relative_path
+      mkdir -p "$(dirname "$destination_path")"
+      if [ -L "$destination_path" ]; then
+        local existing_target
+        existing_target=$(readlink "$destination_path")
+        if [ "$existing_target" = "$source_file" ]; then
+          continue
+        fi
+      fi
+
+      rm -fv "$destination_path"
+      echo Linking $destination_path
+      ln -s "$source_file" "$destination_path"
+    done < <(find "$source_root" -type f -print0)
+  fi
+}
+
 function link_dotfiles () {
   local base_dir=${1:?Need base repository checkout directory}
   local base_name
@@ -101,6 +125,7 @@ function link_dotfiles () {
 
   local dot_dir=$from_relative_dir/atom
   local to_dir=$HOME/.atom
+  mkdir -p "$to_dir"
   for configfile in $(ls $base_dir/$dot_dir); do
     local dotpath=$to_dir/$configfile
     if ! [ -L "$dotpath" ]; then
@@ -110,20 +135,8 @@ function link_dotfiles () {
     fi
   done
 
-  local config_dir=$from_relative_dir/config
-  local config_root=$base_dir/$config_dir
-  if [ -d "$config_root" ]; then
-    while IFS= read -r -d '' configfile; do
-      local relative_path=${configfile#$config_root/}
-      local dotpath=$HOME/.config/$relative_path
-      mkdir -p "$(dirname "$dotpath")"
-      if ! [ -L "$dotpath" ]; then
-        rm -fv "$dotpath"
-        echo Linking $dotpath
-        ln -s "$configfile" "$dotpath"
-      fi
-    done < <(find "$config_root" -type f -print0)
-  fi
+  link_tree "$base_dir/$from_relative_dir/config" "$HOME/.config"
+  link_tree "$base_dir/$from_relative_dir/library" "$HOME/Library"
 }
 
 function clone_repositories () {

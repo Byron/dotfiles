@@ -1,0 +1,87 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /Users/byron/Library/Application Support/com.mitchellh.ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+#
+# Ghostty can reload the configuration while running by using the menu
+# options or the bound key (default: Command + Shift + comma on macOS and
+# Control + Shift + comma on other platforms). Not all config options can be
+# reloaded while running; some only apply to new windows and others may require
+# a full restart to take effect.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+
+# config-file = ?auto/theme.ghostty
+
+# Quick terminal toggle
+window-save-state = always
+quick-terminal-animation-duration = 0.1
+copy-on-select = clipboard
+unfocused-split-opacity = 0.85
+unfocused-split-fill = #101010
+split-divider-color = #5a5a5a
+keybind = global:ctrl+super+backquote=toggle_quick_terminal
+
+# Helix terminal compatibility
+macos-option-as-alt = true
+cursor-color = cell-foreground
+cursor-text = cell-background
+keybind = ctrl+[=text:\x1b
+keybind = alt+comma=text:\x1b,
+
+# Vim-style split navigation and management
+keybind = ctrl+tab=unbind
+keybind = ctrl+shift+tab=unbind
+keybind = super+j=unbind
+keybind = super+k=unbind
+keybind = super+h=goto_split:left
+keybind = super+j=goto_split:down
+keybind = super+k=goto_split:up
+keybind = super+l=goto_split:right
+
+keybind = super+shift+h=new_split:left
+keybind = super+shift+j=new_split:down
+keybind = super+shift+k=new_split:up
+keybind = super+shift+l=new_split:right
+
+keybind = super+ctrl+h=resize_split:left,60
+keybind = super+ctrl+j=resize_split:down,60
+keybind = super+ctrl+k=resize_split:up,60
+keybind = super+ctrl+l=resize_split:right,60
