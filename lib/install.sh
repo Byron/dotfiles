@@ -109,6 +109,21 @@ function link_dotfiles () {
       ln -s ../$base_name/$dot_dir/$configfile $dotpath
     fi
   done
+
+  local config_dir=$from_relative_dir/config
+  local config_root=$base_dir/$config_dir
+  if [ -d "$config_root" ]; then
+    while IFS= read -r -d '' configfile; do
+      local relative_path=${configfile#$config_root/}
+      local dotpath=$HOME/.config/$relative_path
+      mkdir -p "$(dirname "$dotpath")"
+      if ! [ -L "$dotpath" ]; then
+        rm -fv "$dotpath"
+        echo Linking $dotpath
+        ln -s "$configfile" "$dotpath"
+      fi
+    done < <(find "$config_root" -type f -print0)
+  fi
 }
 
 function clone_repositories () {

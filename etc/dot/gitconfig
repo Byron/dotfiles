@@ -9,6 +9,13 @@
         pl = pull --rebase
         amend = commit --amend --no-edit
         gerrit = push origin HEAD:refs/for/master
+
+[alias]
+    # Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+    dlog = -c diff.external=difft log --ext-diff
+    dshow = -c diff.external=difft show --ext-diff
+    ddiff = -c diff.external=difft diff
+
 [core]
         pager = delta --dark
         quotePath = false
@@ -35,11 +42,12 @@
 # 	process = git-lfs filter-process
 
 [diff]
-        tool = difftastic
+	tool = Kaleidoscope
 
 [difftool]
-        prompt = false
+	prompt = false
 
+	trustExitCode = true
 [difftool "difftastic"]
         cmd = difft "$LOCAL" "$REMOTE"
 # Use a pager for large output, just like other git commands.
@@ -54,10 +62,32 @@
         default = upstream
 [gitbutler]
 	gitbutlerCommitter = 0
-	aiModelProvider = lmstudio
-	aiLMStudioEndpoint = http://127.0.0.1:1234
+	aiLMStudioEndpoint = http://localhost:1234
+	aiOpenAIKeyOption = bringYourOwn
+	aiAnthropicKeyOption = bringYourOwn
+	aiModelProvider = openai
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[merge]
+	tool = Kaleidoscope
+[mergetool]
+	prompt = false
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+
+
+[gitbutler.dev]
+  storagePath = gitbutler.dev
+
+[gitbutler.nightly]
+  storagePath = gitbutler.nightly
+[but "alias"]
+	bar = status --files
+[protocol "file"]
+	allow = always

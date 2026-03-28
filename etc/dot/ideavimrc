@@ -28,3 +28,6 @@ set incsearch
 set idearefactormode=keep
 
 set ideajoin
+
+" Sweep AI Tab completion mapping
+map <Tab> :action dev.sweep.assistant.autocomplete.edit.AcceptEditCompletionAction<CR>
