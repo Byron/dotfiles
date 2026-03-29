@@ -141,4 +141,6 @@ tags
 # Coc configuration directory
 .vim
 
+.zed/
+
 # End of https://www.gitignore.io/api/vim,macos,intellij+all
