@@ -1,0 +1,45 @@
+theme = "solarized_light"
+# theme = "default"
+
+[editor]
+line-number = "relative"
+mouse = true
+bufferline = "multiple"
+auto-format = true
+auto-save = true
+idle-timeout = 50
+# Minimum severity to show a diagnostic after the end of a line:
+end-of-line-diagnostics = "hint"
+
+[editor.inline-diagnostics]
+# Minimum severity to show a diagnostic on the primary cursor's line.
+# Note that `cursor-line` diagnostics are hidden in insert mode.
+cursor-line = "error"
+
+[editor.whitespace.characters]
+newline = "·"
+[editor.whitespace.render]
+newline = "all"
+
+[editor.indent-guides]
+render = true
+
+[editor.lsp]
+display-messages = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[keys.normal]
+# "%" =  "match_brackets" # otherwise this is 'mm'
+"^" = "goto_first_nonwhitespace" # otherwise this is 'gs'
+"$" = "goto_line_end" # otherwise this is 'gl'
+"G" = "goto_last_line" # otherwise this is 'ge'
+
+[keys.select]
+# "%" =  "match_brackets" # otherwise this is 'mm'
+"^" = "goto_first_nonwhitespace" # otherwise this is 'gs'
+"$" = "goto_line_end" # otherwise this is 'gl'
+"G" = "goto_last_line" # otherwise this is 'ge'

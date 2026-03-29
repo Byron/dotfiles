@@ -1,0 +1,8 @@
+[[language]]
+name = "rust"
+auto-format = true
+
+# [language.config]
+# checkOnSave = { enable=true, command="clippy" }
+# diagnostics = { experimental = { enable=true } }
+# files = { watcher= "server " }
