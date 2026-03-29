@@ -1,0 +1,188 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "multibuffer_path_style": "auto",
+  "multi_keystroke_timeout_ms": 350,
+  "excerpt_context_lines": 4,
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+      // "default_mode": "danger-full-access",
+      // "default_config_options": {
+      // "approval_mode": "auto-edit",
+      // },
+    },
+  },
+  "outline_panel": {
+    "indent_guides": {
+      "show": "always",
+    },
+    "auto_reveal_entries": false,
+    "git_status": true,
+    "file_icons": true,
+  },
+  "languages": {
+    "Markdown": {
+      "format_on_save": "off",
+    },
+    "Rust": {
+      "inlay_hints": {
+        "show_background": false,
+      },
+    },
+  },
+  "buffer_font_size": 13.0,
+  "diff_view_style": "unified",
+  "search": {
+    "center_on_match": true,
+  },
+  "search_wrap": true,
+  "git_panel": {
+    "scrollbar": {
+      "show": "auto",
+    },
+    "collapse_untracked_diff": true,
+    "sort_by_path": true,
+    "tree_view": true,
+  },
+  "vim": {
+    "use_system_clipboard": "on_yank",
+  },
+  "remove_trailing_whitespace_on_save": false,
+  "agent": {
+    "message_editor_min_lines": 1,
+    "expand_terminal_card": true,
+    "expand_edit_card": true,
+    "play_sound_when_agent_done": true,
+    "single_file_review": false,
+    "enable_feedback": false,
+    "tool_permissions": {
+      "default": "allow",
+      "tools": {},
+    },
+    "profiles": {
+      "allow-all": {
+        "name": "Allow All",
+        "tools": {
+          "update_plan": true,
+          "copy_path": true,
+          "create_directory": true,
+          "delete_path": true,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "project_notifications": false,
+          "move_path": true,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "restore_file_from_disk": true,
+          "save_file": true,
+          "open": true,
+          "grep": true,
+          "spawn_agent": true,
+          "terminal": true,
+          "thinking": true,
+          "web_search": true,
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {},
+      },
+    },
+    "notify_when_agent_waiting": "never",
+    "dock": "bottom",
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "lmstudio",
+      "model": "qwen/qwen3.5-35b-a3b",
+    },
+    "favorite_models": [],
+    "inline_assistant_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-thinking-latest",
+    },
+    "model_parameters": [],
+  },
+  "base_keymap": "JetBrains",
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+  "vim_mode": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 300,
+    },
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "relative_line_numbers": "enabled",
+  "format_on_save": "on",
+  "experimental.theme_overrides": {
+    "toolbar.background": "#fbf8e8",
+    "syntax": {
+      "keyword": {
+        "color": "#d33682",
+        "font_weight": 900,
+      },
+      "type": {
+        "font_weight": 900,
+      },
+      "comment": {
+        "color": "#93a1a1",
+      },
+      "comment.doc": {
+        "color": "#93a1a1",
+        "font_style": "italic",
+      },
+      "attribute": {
+        "color": "#cb4b16",
+      },
+      "constant": {
+        "color": "#d33682",
+        "font_weight": 900,
+      },
+      "number": {
+        "color": "#6c71c4",
+      },
+      "string": {
+        "color": "#8b897a",
+      },
+      "string.escape": {
+        "color": "#6c71c4",
+      },
+      "variable": {
+        "color": "#839496",
+      },
+      "label": {
+        "color": "#ff0000",
+      },
+      // -> below seems ineffective
+      "variant": {
+        "color": "#859900",
+      },
+      "enum": {
+        "color": "#859900",
+      },
+    },
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "rust": {
+          "analyzerTargetDir": true,
+        },
+      },
+    },
+  },
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-cmd-r": "task::Spawn"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-cmd-r": "task::Rerun"
+    }
+  },
+  {
+    "bindings": {
+      "alt-enter": "workspace::ZoomIn"
+    }
+  },
+  {
+    "bindings": {
+      "alt-`": "workspace::ToggleZoom"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "alt-enter": "editor::ToggleCodeActions"
+    }
+  },
+  {
+    "bindings": {
+      "escape escape": "workspace::FocusCenterPane"
+    }
+  }
+]
