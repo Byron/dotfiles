@@ -142,5 +142,7 @@ tags
 .vim
 
 .zed/
+.vscode/
+.cargo/
 
 # End of https://www.gitignore.io/api/vim,macos,intellij+all

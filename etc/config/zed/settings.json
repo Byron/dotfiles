@@ -12,6 +12,11 @@
   "excerpt_context_lines": 4,
   "agent_servers": {
     "codex-acp": {
+      "favorite_config_option_values": {
+        "mode": [
+          "full-access"
+        ]
+      },
       "type": "registry",
       // "default_mode": "danger-full-access",
       // "default_config_options": {
