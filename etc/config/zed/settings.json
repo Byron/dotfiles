@@ -7,10 +7,20 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
   "multibuffer_path_style": "auto",
   "multi_keystroke_timeout_ms": 350,
   "excerpt_context_lines": 4,
   "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry"
+    },
     "codex-acp": {
       "favorite_config_option_values": {
         "mode": [
@@ -25,6 +35,7 @@
     },
   },
   "outline_panel": {
+    "dock": "left",
     "indent_guides": {
       "show": "always",
     },
@@ -49,6 +60,7 @@
   },
   "search_wrap": true,
   "git_panel": {
+    "dock": "left",
     "scrollbar": {
       "show": "auto",
     },
@@ -61,10 +73,11 @@
   },
   "remove_trailing_whitespace_on_save": false,
   "agent": {
+    "flexible": true,
     "message_editor_min_lines": 1,
     "expand_terminal_card": true,
     "expand_edit_card": true,
-    "play_sound_when_agent_done": true,
+    "play_sound_when_agent_done": "always",
     "single_file_review": false,
     "enable_feedback": false,
     "tool_permissions": {
@@ -75,6 +88,7 @@
       "allow-all": {
         "name": "Allow All",
         "tools": {
+          "search_web": true,
           "update_plan": true,
           "copy_path": true,
           "create_directory": true,
@@ -95,7 +109,6 @@
           "spawn_agent": true,
           "terminal": true,
           "thinking": true,
-          "web_search": true,
         },
         "enable_all_context_servers": true,
         "context_servers": {},
