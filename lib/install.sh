@@ -136,6 +136,7 @@ function link_dotfiles () {
   done
 
   link_tree "$base_dir/$from_relative_dir/config" "$HOME/.config"
+  link_tree "$base_dir/$from_relative_dir/codex" "$HOME/.codex"
   link_tree "$base_dir/$from_relative_dir/library" "$HOME/Library"
 }
 

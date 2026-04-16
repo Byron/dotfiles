@@ -1,0 +1,117 @@
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+plan_mode_reasoning_effort = "high"
+service_tier = "fast"
+approvals_reviewer = "user"
+
+[projects."/Users/byron/dev/github.com/rust-lang/cargo"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/Byron/google-apis-rs"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/GitoxideLabs/gitoxide"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/Byron/cli-prompts"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/Byron/dua-cli"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/rust-lang/flate2-rs"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/rust-lang/libz-sys"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/max-sixty/worktrunk"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/stacked-git/stgit"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/git/git"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gburd/isync"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.next3"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/zed-industries/zed"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.fix"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev-gb/gitbutler"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.next4"]
+trust_level = "trusted"
+
+[projects."/Users/byron"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.fix2"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.test-isolation"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/ghostty-org/ghostty"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.next"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.fix-shell-detection"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.allow-submodules"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitpython-developers/GitPython"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/Byron/cargo-smart-release"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/GitoxideLabs/gitoxide.pr-review"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/GitoxideLabs/gitoxide.improvements"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/martinvonz/jj"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/gitbutlerapp/gitbutler.wire-change-ids"]
+trust_level = "trusted"
+
+[projects."/Users/byron/Downloads/gitbutler-test-repo"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/GitoxideLabs/gitoxide.vendor-imara-diff"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/github.com/TypeWhisper/typewhisper-mac"]
+trust_level = "trusted"
+
+[projects."/Users/byron/dev/codeberg.org/mergiraf/mergiraf"]
+trust_level = "trusted"
+
+[features]
+multi_agent = true
+
+[notice]
+hide_full_access_warning = true
+
+[plugins."github@openai-curated"]
+enabled = true
