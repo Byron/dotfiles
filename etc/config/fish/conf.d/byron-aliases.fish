@@ -211,5 +211,6 @@ __byron_alias wts 'wt switch'
 __byron_alias orc 'cd-repo-corpus'
 __byron_alias l 'eza -abgl'
 __byron_alias lla 'eza -abgl'
+__byron_alias cat 'bat'
 
 functions --erase __byron_alias
