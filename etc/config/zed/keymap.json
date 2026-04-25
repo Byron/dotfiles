@@ -29,7 +29,19 @@
   },
   {
     "bindings": {
-      "escape escape": "workspace::FocusCenterPane"
+      "escape": "workspace::FocusCenterPane"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-cmd-k": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "cmd-r": "workspace::ToggleRightDock"
     }
   }
 ]

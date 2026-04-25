@@ -8,6 +8,13 @@ if status is-interactive
     if functions -q fish_user_key_bindings
         fish_user_key_bindings
     end
+
+    function __abbr_multicd
+        set -l levels (math (string length -- $argv[1]) - 1)
+        echo cd (string repeat -n $levels ../)
+    end
+
+    abbr --add multicd --position command --regex '^\.\.+$' --function __abbr_multicd
 end
 
 if test -x /opt/homebrew/bin/brew
@@ -30,7 +37,15 @@ if command -q gpgconf
 end
 
 if test -t 0
-    set -gx GPG_TTY (tty)
+    set -l tty_path (tty 2>/dev/null)
+
+    if test $status -eq 0
+        set -gx GPG_TTY $tty_path
+
+        if command -q gpg-connect-agent
+            gpg-connect-agent updatestartuptty /bye >/dev/null 2>/dev/null
+        end
+    end
 end
 
 if test -d "$HOME/.cargo/bin"
@@ -40,3 +55,7 @@ end
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/byron/.cache/lm-studio/bin
 # End of LM Studio CLI section
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :

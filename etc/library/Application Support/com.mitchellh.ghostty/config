@@ -50,6 +50,10 @@
 
 # config-file = ?auto/theme.ghostty
 
+# Keep Ghostty silent even if bell defaults change upstream.
+bell-features = no-system,no-audio
+notify-on-command-finish-action = notify
+
 # Quick terminal toggle
 window-save-state = always
 quick-terminal-animation-duration = 0.1

@@ -7,25 +7,44 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent_buffer_font_size": 14.0,
+  "agent_ui_font_size": 18.0,
+  "minimap": {
+    "show": "auto",
+  },
+  "terminal": {
+    "font_size": 14.0,
+    "dock": "bottom",
+  },
+  "show_edit_predictions": false,
+  "edit_predictions": {
+    "provider": "open_ai_compatible_api",
+    "mode": "subtle",
+    "open_ai_compatible_api": {
+      "api_url": "http://localhost:1234/v1/completions",
+      "model": "qwen2.5-coder-7b-instruct-mlx",
+      "prompt_format": "qwen",
+      "max_output_tokens": 64,
+    },
+  },
   "cli_default_open_behavior": "new_window",
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "collaboration_panel": {
-    "dock": "left"
+    "dock": "right",
   },
   "multibuffer_path_style": "auto",
   "multi_keystroke_timeout_ms": 350,
   "excerpt_context_lines": 4,
   "agent_servers": {
     "github-copilot-cli": {
-      "type": "registry"
+      "type": "registry",
     },
     "codex-acp": {
       "favorite_config_option_values": {
-        "mode": [
-          "full-access"
-        ]
+        "model": ["gpt-5.4"],
+        "mode": ["full-access"],
       },
       "type": "registry",
       // "default_mode": "danger-full-access",
@@ -53,7 +72,7 @@
       },
     },
   },
-  "buffer_font_size": 13.0,
+  "buffer_font_size": 14.0,
   "diff_view_style": "unified",
   "search": {
     "center_on_match": true,
@@ -73,8 +92,9 @@
   },
   "remove_trailing_whitespace_on_save": false,
   "agent": {
+    "sidebar_side": "left",
     "flexible": true,
-    "message_editor_min_lines": 1,
+    "message_editor_min_lines": 4,
     "expand_terminal_card": true,
     "expand_edit_card": true,
     "play_sound_when_agent_done": "always",
@@ -115,7 +135,7 @@
       },
     },
     "notify_when_agent_waiting": "never",
-    "dock": "bottom",
+    "dock": "right",
     "default_profile": "ask",
     "default_model": {
       "provider": "lmstudio",
