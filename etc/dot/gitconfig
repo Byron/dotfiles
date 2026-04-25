@@ -43,6 +43,7 @@
 
 [diff]
 	tool = Kaleidoscope
+	algorithm = histogram
 
 [difftool]
 	prompt = false
