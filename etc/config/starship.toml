@@ -11,6 +11,13 @@ behind = "⇣$count"
 diverged = "⇕⇡$ahead_count⇣$behind_count"
 up_to_date = "≡"
 
+[git_metrics]
+disabled = false
+format = "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+added_style = "bold green"
+deleted_style = "bold red"
+only_nonzero_diffs = true
+
 [buf]
 disabled = true
 

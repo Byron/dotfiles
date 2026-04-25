@@ -1,4 +1,5 @@
 if status is-interactive
+    set -gx STARSHIP_CONFIG "$HOME/.dotfiles/etc/config/starship.toml"
     if command -q starship
         starship init fish | source
     else if test -x "$HOME/.cargo/bin/starship"
