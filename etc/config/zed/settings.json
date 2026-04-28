@@ -7,13 +7,15 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "agent_buffer_font_size": 14.0,
-  "agent_ui_font_size": 18.0,
+  "zoom": 100,
+  "ui_font_size": 16.0,
+  "agent_buffer_font_size": 13.0,
+  "agent_ui_font_size": 16.0,
   "minimap": {
     "show": "auto",
   },
   "terminal": {
-    "font_size": 14.0,
+    "font_size": 13.0,
     "dock": "bottom",
   },
   "show_edit_predictions": false,
@@ -72,7 +74,7 @@
       },
     },
   },
-  "buffer_font_size": 14.0,
+  "buffer_font_size": 13.0,
   "diff_view_style": "unified",
   "search": {
     "center_on_match": true,
