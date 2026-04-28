@@ -6,6 +6,14 @@ if status is-interactive
         "$HOME/.cargo/bin/starship" init fish | source
     end
 
+    if functions -q fish_prompt; and functions -q __ghostty_git_repo_background; and not functions -q __fish_prompt_without_ghostty_git_repo_background
+        functions --copy fish_prompt __fish_prompt_without_ghostty_git_repo_background
+        function fish_prompt
+            __fish_prompt_without_ghostty_git_repo_background $argv
+            __ghostty_git_repo_background
+        end
+    end
+
     if functions -q fish_user_key_bindings
         fish_user_key_bindings
     end

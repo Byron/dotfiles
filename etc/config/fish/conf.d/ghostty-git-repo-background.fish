@@ -69,7 +69,3 @@ function __ghostty_git_repo_background --on-variable PWD
         printf "\e]111\e\\"
     end
 end
-
-if status --is-interactive
-    __ghostty_git_repo_background
-end
