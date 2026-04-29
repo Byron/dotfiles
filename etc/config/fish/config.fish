@@ -37,6 +37,8 @@ end
 
 set -gx EDITOR hx
 set -gx VISUAL hx
+set -gx AZURE_OPENAI_BASE_URL https://openai-instance-g2.openai.azure.com/openai/v1
+set -gx AZURE_OPENAI_DEPLOYMENT_NAME_MAP gpt-5.5=gpt-5.5-1
 set -gx https_proxy http://127.0.0.1:8118
 set -gx http_proxy http://127.0.0.1:8118
 
@@ -59,6 +61,10 @@ end
 
 if test -d "$HOME/.cargo/bin"
     fish_add_path -g "$HOME/.cargo/bin"
+end
+
+if test -d "$HOME/.npm-global/bin"
+    fish_add_path -g "$HOME/.npm-global/bin"
 end
 
 # Added by LM Studio CLI (lms)
