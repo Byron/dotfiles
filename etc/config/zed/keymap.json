@@ -2,46 +2,69 @@
   {
     "context": "Workspace",
     "bindings": {
-      "alt-cmd-r": "task::Spawn"
-    }
+      "alt-cmd-r": "task::Spawn",
+    },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-cmd-r": "task::Rerun"
-    }
+      "ctrl-cmd-r": "task::Rerun",
+    },
   },
   {
     "bindings": {
-      "alt-enter": "workspace::ZoomIn"
-    }
+      "alt-enter": "workspace::ZoomIn",
+    },
   },
   {
     "bindings": {
-      "alt-`": "workspace::ToggleZoom"
-    }
+      "alt-`": "workspace::ToggleZoom",
+    },
   },
   {
     "context": "(VimControl && !menu)",
     "bindings": {
-      "alt-enter": "editor::ToggleCodeActions"
-    }
+      "alt-enter": "editor::ToggleCodeActions",
+    },
   },
   {
     "bindings": {
-      "escape": "workspace::FocusCenterPane"
-    }
+      "escape": "workspace::FocusCenterPane",
+    },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "alt-cmd-k": "workspace::ToggleRightDock"
-    }
+      "alt-cmd-k": "workspace::ToggleRightDock",
+    },
   },
   {
     "context": "Workspace",
     "unbind": {
-      "cmd-r": "workspace::ToggleRightDock"
+      "cmd-r": "workspace::ToggleRightDock",
+    },
+  },
+  {
+    "context": "AcpThread > Editor",
+    "unbind": {
+      "alt-cmd-k": "agent::ToggleThinkingMode",
+    },
+  },
+  {
+    "context": "Workspace && !Terminal",
+    "bindings": {
+      "alt-cmd-r": [
+        "task::Rerun",
+        {
+          "reevaluate_context": false,
+        },
+      ],
+    },
+  },
+  {
+    "context": "Terminal",
+    "unbind": {
+      "alt-cmd-r": "terminal::RerunTask"
     }
   }
 ]
