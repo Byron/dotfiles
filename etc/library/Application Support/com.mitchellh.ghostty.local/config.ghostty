@@ -90,4 +90,4 @@ keybind = super+ctrl+j=resize_split:down,60
 keybind = super+ctrl+k=resize_split:up,60
 keybind = super+ctrl+l=resize_split:right,60
 
-# keybind = cmd+shift+f=toggle_quadrant_zoom
+keybind = cmd+shift+f=toggle_quadrant_zoom

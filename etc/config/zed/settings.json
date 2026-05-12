@@ -45,7 +45,9 @@
     },
     "codex-acp": {
       "favorite_config_option_values": {
-        "model": ["gpt-5.4"],
+        "model": [
+          "gpt-5.5"
+        ],
         "mode": ["full-access"],
       },
       "type": "registry",

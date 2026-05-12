@@ -51,17 +51,6 @@
     },
   },
   {
-    "context": "Workspace && !Terminal",
-    "bindings": {
-      "alt-cmd-r": [
-        "task::Rerun",
-        {
-          "reevaluate_context": false,
-        },
-      ],
-    },
-  },
-  {
     "context": "Terminal",
     "unbind": {
       "alt-cmd-r": "terminal::RerunTask"
