@@ -83,11 +83,11 @@
 	prompt = false
 
 
-[gitbutler.dev]
-  storagePath = gitbutler.dev
+# [gitbutler.dev]
+  # storagePath = gitbutler.dev
 
-[gitbutler.nightly]
-  storagePath = gitbutler.nightly
+# [gitbutler.nightly]
+  # storagePath = gitbutler.nightly
 [but "alias"]
 	bar = status --files
 [protocol "file"]

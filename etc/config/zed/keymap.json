@@ -55,5 +55,41 @@
     "unbind": {
       "alt-cmd-r": "terminal::RerunTask"
     }
+  },
+  {
+    "context": "Workspace || Editor",
+    "unbind": {
+      "cmd-shift-k": "git::Push"
+    }
+  },
+  {
+    "context": "GitPanel",
+    "unbind": {
+      "ctrl-g up": "git::Push"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-shift-x": "terminal::ToggleViMode"
+    }
+  },
+  {
+    "context": "Terminal",
+    "unbind": {
+      "ctrl-shift-space": "terminal::ToggleViMode"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-cmd-n": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "cmd-j": "workspace::ToggleBottomDock"
+    }
   }
 ]

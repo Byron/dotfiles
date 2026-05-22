@@ -92,6 +92,7 @@
     "tree_view": true,
   },
   "vim": {
+    "use_regex_search": false,
     "use_system_clipboard": "on_yank",
   },
   "remove_trailing_whitespace_on_save": false,

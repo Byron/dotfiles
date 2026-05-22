@@ -58,7 +58,7 @@ notify-on-command-finish-action = notify
 window-save-state = always
 quick-terminal-animation-duration = 0.1
 copy-on-select = clipboard
-unfocused-split-opacity = 0.85
+unfocused-split-opacity = 0.65
 unfocused-split-fill = #101010
 split-divider-color = #5a5a5a
 keybind = global:ctrl+super+backquote=toggle_quick_terminal
