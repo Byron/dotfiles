@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR From Session"
+  short_description: "Open a draft PR from session context."
+  default_prompt: "Use $pr-from-session to create a draft PR from this session."

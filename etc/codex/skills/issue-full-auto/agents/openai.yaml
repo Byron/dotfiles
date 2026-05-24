@@ -1,0 +1,4 @@
+interface:
+  display_name: "Issue Full Auto"
+  short_description: "Fix a GitHub issue, advisory, or report."
+  default_prompt: "Use $issue-full-auto for this issue, advisory, or report."

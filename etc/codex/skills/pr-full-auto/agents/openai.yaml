@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Full Auto"
+  short_description: "Monitor PR CI and reviews with StGit commits."
+  default_prompt: "Use PR Full Auto for this pull request."

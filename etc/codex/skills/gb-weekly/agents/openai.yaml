@@ -1,0 +1,9 @@
+interface:
+  display_name: "GB Weekly"
+  short_description: "Draft GitButler/Gitoxide weekly reports"
+  default_prompt: "Use $gb-weekly to write last week's GitButler and Gitoxide report for Discord."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "github"
+      description: "GitHub connector for PR, issue, comment, and review activity"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "GH Monthly"
+  short_description: "Outline Gitoxide monthly reports"
+  default_prompt: "Use $gh-monthly to create an outline for the next Gitoxide monthly report."

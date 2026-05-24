@@ -1,0 +1,4 @@
+interface:
+  display_name: "StG Post-Rebase Conflicts"
+  short_description: "Resolve StGit conflicts and finish pushing patches."
+  default_prompt: "Use $stg-post-rebase-conflicts to resolve the current StGit conflicts and push the rest of the patch queue."
