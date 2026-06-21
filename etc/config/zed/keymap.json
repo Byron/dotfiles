@@ -91,5 +91,11 @@
     "unbind": {
       "cmd-j": "workspace::ToggleBottomDock"
     }
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "cmd-shift-k": "editor::DeleteLine"
+    }
   }
 ]
