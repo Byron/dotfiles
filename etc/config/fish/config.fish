@@ -38,9 +38,8 @@ end
 set -gx EDITOR hx
 set -gx VISUAL hx
 set -gx AZURE_OPENAI_BASE_URL https://openai-instance-g2.openai.azure.com/openai/v1
-set -gx AZURE_OPENAI_DEPLOYMENT_NAME_MAP gpt-5.5=gpt-5.5-1
-set -gx https_proxy http://127.0.0.1:8118
-set -gx http_proxy http://127.0.0.1:8118
+# set -gx https_proxy http://127.0.0.1:8118
+# set -gx http_proxy http://127.0.0.1:8118
 
 if command -q gpgconf
     gpgconf --launch gpg-agent >/dev/null 2>/dev/null

@@ -78,6 +78,9 @@ The starting directory is the only allowed worktree for this skill. Do not run `
 2. Write a failing regression test that reproduces the issue before implementing the fix.
 3. In advisory-backed mode, think beyond the single scenario named in the advisory: identify similar attack vectors, adjacent inputs, variant encodings, alternate call paths, and shared helpers that express the same exploit class. Prefer a general prevention that closes the broader class when it is coherent and proportional, and add regression coverage for the representative variants without disclosing sensitive exploit details unnecessarily.
 4. If the issue is related to git behavior, inspect `/Users/byron/dev/github.com/git/git` as the desired-behavior reference rather than relying only on the issue report. Record the relevant Git baseline, command behavior, test, commit, or source reference for the eventual commit message.
+   - Never copy protected expression from Git's C source into `grit-lib`. Use the C source only for ideas, methods, interfaces, and behavior.
+   - Allowed (not protectable): the algorithm or method, such as Myers diff, the approxidate parser, or name-hash math; the interface/behavior it must produce; byte-for-byte output compatibility; and facts, such as keyword lists, opcode tables, and format constants. Reimplement these in your own idiomatic Rust.
+   - Forbidden (protected expression copied verbatim or near-verbatim): Git's prose comments, multi-line user-facing message strings, and code whose structure, naming, and layout track the C beyond what the method requires.
 5. Implement the smallest coherent fix that satisfies the regression test and fits the repo's existing patterns.
 6. Run the focused test first, then the nearest repo-standard validation that is proportional to the change.
 7. Do not run `codex review --uncommitted` in this workflow. Codex review happens only after a StGit commit exists, and only once per commit hash.

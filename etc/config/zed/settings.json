@@ -7,6 +7,9 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "diagnostics": {
+    "button": false
+  },
   "zoom": 100,
   "ui_font_size": 16.0,
   "agent_buffer_font_size": 13.0,
@@ -36,29 +39,16 @@
   "collaboration_panel": {
     "dock": "right",
   },
-  "multibuffer_path_style": "auto",
-  "multi_keystroke_timeout_ms": 350,
   "excerpt_context_lines": 4,
   "agent_servers": {
-    "github-copilot-cli": {
-      "type": "registry",
-    },
     "codex-acp": {
       "default_config_options": {
-        "mode": "full-access"
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "medium",
+        "mode": "agent-full-access"
       },
-      "favorite_config_option_values": {
-        "model": [
-          "gpt-5.5"
-        ],
-        "mode": ["full-access"],
-      },
-      "type": "registry",
-      // "default_mode": "danger-full-access",
-      // "default_config_options": {
-      // "approval_mode": "auto-edit",
-      // },
-    },
+      "type": "registry"
+    }
   },
   "outline_panel": {
     "dock": "left",
@@ -91,7 +81,6 @@
       "show": "auto",
     },
     "collapse_untracked_diff": true,
-    "sort_by_path": true,
     "tree_view": true,
   },
   "vim": {

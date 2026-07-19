@@ -1,6 +1,6 @@
 ---
 name: stg-post-rebase-conflicts
-description: Resolve StGit conflicts after a rebase or patch push by preserving the intent visible in the current StGit patch/commit, then run `cargo fmt`, `stg refresh`, and `stg push` after each resolved conflict until the top of the patch queue is reached; finish with `cargo clippy --workspace --all-targets`. Use when the user asks Codex to continue a StGit stack after post-rebase conflicts, resolve `stg push` conflicts, or finish applying a conflicted StGit patch series.
+description: "Explicit opt-in only: resolve StGit conflicts after a rebase or patch push while preserving patch intent and completing the patch queue. Use only when the user explicitly invokes `$stg-post-rebase-conflicts`, or when another already-invoked skill explicitly directs Codex to invoke it. Do not select this skill merely because a request involves StGit conflicts, rebases, or patch pushes."
 ---
 
 # StG Post-Rebase Conflicts
