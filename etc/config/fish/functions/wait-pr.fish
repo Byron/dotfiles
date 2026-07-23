@@ -1,24 +1,37 @@
 function wait-pr --description 'Wait for a PR to finish CI or be merged'
-    if test (count $argv) -lt 1; or test (count $argv) -gt 2; or test (count $argv) -eq 2 -a "$argv[2]" != --auto-merge
-        echo 'usage: wait-pr PR_NUMBER [--auto-merge]' >&2
+    if test (count $argv) -gt 2; or test (count $argv) -eq 2 -a "$argv[2]" != --auto-merge
+        echo 'usage: wait-pr [PR_NUMBER] [--auto-merge]' >&2
         return 2
     end
 
-    set -l pr $argv[1]
+    set -l pr
     set -l auto_merge false
+    if test (count $argv) -ge 1
+        if test "$argv[1]" = --auto-merge
+            set auto_merge true
+        else
+            set pr $argv[1]
+        end
+    end
     if test (count $argv) -eq 2
         set auto_merge true
     end
     set -l merge_requested false
+    set -l ci_done_seen false
 
-    set -l repository_url (gh repo view --json url --jq .url 2>/dev/null)
-    if test -z "$repository_url"
-        echo 'wait-pr: could not determine the repository URL for the current directory' >&2
+    set -l pr_info (gh pr view $pr --json number,url --jq '.number, .url' 2>/dev/null)
+    if test (count $pr_info) -ne 2
+        if test -n "$pr"
+            echo "wait-pr: could not find PR #$pr" >&2
+        else
+            echo 'wait-pr: could not find a PR for the current branch' >&2
+        end
         return 2
     end
-    set -l url "$repository_url/pull/$pr"
+    set pr $pr_info[1]
+    set -l url $pr_info[2]
 
-    echo "Watching $repository_url PR #$pr every 20 seconds."
+    echo "Watching $url every 20 seconds."
     echo 'Will stop and notify when the PR is merged or CI finishes.'
     if test "$auto_merge" = true
         echo 'Successful CI will trigger a merge.'
@@ -62,9 +75,12 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                     continue
                 end
             else
-                printf '\e]9;⚠️ PR #%s CI finished, but is not merged\e\\' "$pr"
-                echo ' ⚠️ CI finished; PR is not merged'
-                return
+                if test "$ci_done_seen" = true
+                    printf '\e]9;⚠️ PR #%s CI finished, but is not merged\e\\' "$pr"
+                    echo ' ⚠️ CI finished; PR is not merged'
+                    return
+                end
+                set ci_done_seen true
             end
         end
 

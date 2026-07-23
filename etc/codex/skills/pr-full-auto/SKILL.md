@@ -53,7 +53,13 @@ Repeat until all required and relevant CI checks pass, or until a blocker is rea
 4. Implement the smallest coherent fix.
 5. Validate locally with the most relevant test, lint, build, or formatter check.
 6. Create a StGit commit for the fix, or update a StGit commit only if Codex created it during the current task.
-7. Push the PR branch.
+7. Push the PR branch. If the current worktree branch has no upstream yet, make the first push set it to track the resolved PR remote branch:
+
+   ```bash
+   git push --set-upstream <remote> HEAD:<pr-head-branch>
+   ```
+
+   Resolve `<remote>` and `<pr-head-branch>` from the verified PR context; do not assume `origin` when the PR head belongs to another configured remote.
 8. Monitor checks again.
 
 Treat non-GitHub Actions checks as report-only unless logs are available through the check URL or the user has provided the provider-specific access path.

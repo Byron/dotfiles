@@ -76,6 +76,7 @@
   },
   "search_wrap": true,
   "git_panel": {
+    "group_by": "none",
     "dock": "left",
     "scrollbar": {
       "show": "auto",
