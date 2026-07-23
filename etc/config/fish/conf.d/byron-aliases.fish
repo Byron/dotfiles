@@ -212,6 +212,6 @@ __byron_alias orc 'cd-repo-corpus'
 __byron_alias l 'eza -abgl'
 __byron_alias lla 'eza -abgl'
 __byron_alias cat 'bat'
-__byron_alias tix 'tig'
+__byron_alias tig 'tix'
 
 functions --erase __byron_alias
