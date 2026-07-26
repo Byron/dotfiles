@@ -213,5 +213,6 @@ __byron_alias l 'eza -abgl'
 __byron_alias lla 'eza -abgl'
 __byron_alias cat 'bat'
 __byron_alias tig 'tix'
+__byron_alias tigm 'tig -h main'
 
 functions --erase __byron_alias

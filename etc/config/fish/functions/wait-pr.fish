@@ -1,26 +1,17 @@
 function wait-pr --description 'Wait for a PR to finish CI or be merged'
-    if test (count $argv) -gt 2; or test (count $argv) -eq 2 -a "$argv[2]" != --auto-merge
-        echo 'usage: wait-pr [PR_NUMBER] [--auto-merge]' >&2
+    argparse auto-merge no-cleanup -- $argv
+    if test $status -ne 0; or test (count $argv) -gt 1
+        echo 'usage: wait-pr [PR_NUMBER] [--auto-merge] [--no-cleanup]' >&2
         return 2
     end
 
-    set -l pr
-    set -l auto_merge false
-    if test (count $argv) -ge 1
-        if test "$argv[1]" = --auto-merge
-            set auto_merge true
-        else
-            set pr $argv[1]
-        end
-    end
-    if test (count $argv) -eq 2
-        set auto_merge true
-    end
+    set -l pr $argv[1]
+    set -l auto_merge (set -q _flag_auto_merge; and echo true; or echo false)
     set -l merge_requested false
     set -l ci_done_seen false
 
-    set -l pr_info (gh pr view $pr --json number,url --jq '.number, .url' 2>/dev/null)
-    if test (count $pr_info) -ne 2
+    set -l pr_info (gh pr view $pr --json number,url,title --jq '.number, .url, .title' 2>/dev/null)
+    if test (count $pr_info) -ne 3
         if test -n "$pr"
             echo "wait-pr: could not find PR #$pr" >&2
         else
@@ -30,6 +21,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     end
     set pr $pr_info[1]
     set -l url $pr_info[2]
+    set -l title (string replace -ar '[[:cntrl:]]' ' ' -- $pr_info[3])
 
     echo "Watching $url every 20 seconds."
     echo 'Will stop and notify when the PR is merged or CI finishes.'
@@ -38,15 +30,23 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     else
         echo 'Completed CI without a merge will be reported as a warning.'
     end
-    echo 'If merged, will run: stg commit -a; and wt remove -D'
+    if set -q _flag_no_cleanup
+        echo 'If merged, will run: stg commit -a; and git fetch'
+    else
+        echo 'If merged, will run: stg commit -a; and wt remove -D; and git pull --ff-only'
+    end
 
     while true
         set -l state (gh pr view "$url" --json state --jq .state 2>/dev/null)
 
         if test "$state" = MERGED
-            printf '\e]9;✅ PR #%s merged!\e\\' "$pr"
+            printf '\e]9;✅ PR #%s merged: %s\e\\' "$pr" "$title"
             echo ' ✅ merged'
-            stg commit -a; and wt remove -D
+            if set -q _flag_no_cleanup
+                stg commit -a; and git fetch
+            else
+                stg commit -a; and wt remove -D; and git pull --ff-only
+            end
             return
         end
 
@@ -54,7 +54,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
             --jq 'any(.[]; .bucket == "fail" or .bucket == "cancel")' 2>/dev/null)
 
         if test "$ci_failed" = true
-            printf '\e]9;❌ PR #%s CI failed!\e\\' "$pr"
+            printf '\e]9;❌ PR #%s CI failed: %s\e\\' "$pr" "$title"
             echo ' ❌ CI failed or was cancelled'
             return 1
         end
@@ -67,7 +67,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                 if test "$merge_requested" = false
                     echo ' ✅ CI finished; requesting merge'
                     if not gh pr merge "$url" --merge
-                        printf '\e]9;❌ PR #%s could not be merged!\e\\' "$pr"
+                        printf '\e]9;❌ PR #%s could not be merged: %s\e\\' "$pr" "$title"
                         echo ' ❌ merge failed'
                         return 1
                     end
@@ -76,7 +76,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                 end
             else
                 if test "$ci_done_seen" = true
-                    printf '\e]9;⚠️ PR #%s CI finished, but is not merged\e\\' "$pr"
+                    printf '\e]9;⚠️ PR #%s CI finished, but is not merged: %s\e\\' "$pr" "$title"
                     echo ' ⚠️ CI finished; PR is not merged'
                     return
                 end
