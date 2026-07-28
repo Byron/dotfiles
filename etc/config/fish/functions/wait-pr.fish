@@ -23,7 +23,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     set -l url $pr_info[2]
     set -l title (string replace -ar '[[:cntrl:]]' ' ' -- $pr_info[3])
 
-    echo "Watching $url every 20 seconds."
+    echo "Watching $url every 14 seconds."
     echo 'Will stop and notify when the PR is merged or CI finishes.'
     if test "$auto_merge" = true
         echo 'Successful CI will trigger a merge.'
@@ -36,6 +36,8 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         echo 'If merged, will run: stg commit -a; and wt remove -D; and git pull --ff-only'
     end
 
+    printf '\e]2;wait-pr %s\e\\' "$pr"
+    printf '\e]9;4;3\e\\'
     while true
         set -l state (gh pr view "$url" --json state --jq .state 2>/dev/null)
 
@@ -47,7 +49,9 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
             else
                 stg commit -a; and wt remove -D; and git pull --ff-only
             end
-            return
+            set -l cleanup_status $status
+            printf '\e]9;4;0\e\\'
+            return $cleanup_status
         end
 
         set -l ci_failed (gh pr checks "$url" --json bucket \
@@ -56,6 +60,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         if test "$ci_failed" = true
             printf '\e]9;❌ PR #%s CI failed: %s\e\\' "$pr" "$title"
             echo ' ❌ CI failed or was cancelled'
+            printf '\e]9;4;0\e\\'
             return 1
         end
 
@@ -69,6 +74,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                     if not gh pr merge "$url" --merge
                         printf '\e]9;❌ PR #%s could not be merged: %s\e\\' "$pr" "$title"
                         echo ' ❌ merge failed'
+                        printf '\e]9;4;0\e\\'
                         return 1
                     end
                     set merge_requested true
@@ -78,6 +84,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                 if test "$ci_done_seen" = true
                     printf '\e]9;⚠️ PR #%s CI finished, but is not merged: %s\e\\' "$pr" "$title"
                     echo ' ⚠️ CI finished; PR is not merged'
+                    printf '\e]9;4;0\e\\'
                     return
                 end
                 set ci_done_seen true
@@ -85,6 +92,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         end
 
         printf '.'
-        sleep 20
+        sleep 14
+        printf '\e]9;4;3\e\\'
     end
 end

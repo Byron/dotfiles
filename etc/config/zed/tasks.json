@@ -82,7 +82,6 @@
   {
     "label": "cargo test tree (current crate)",
     "command": "cargo test -p \"$ZED_CUSTOM_RUST_PACKAGE\" -- --list | sed 's/: test$//' | sed 's/::/\\//g' | tree --fromfile",
-    "cwd": "$ZED_WORKTREE_ROOT",
     "use_new_terminal": false,
     "allow_concurrent_runs": true,
     "reveal": "always",
@@ -90,7 +89,6 @@
   {
     "label": "cargo llvm-cov --html --open (coverage)",
     "command": "cargo llvm-cov -p \"$ZED_CUSTOM_RUST_PACKAGE\" --html --open",
-    "cwd": "$ZED_WORKTREE_ROOT",
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
     "reveal": "always",
@@ -99,7 +97,8 @@
   },
   {
     "label": "stg refresh --index",
-    "command": "stg refresh --index",
+    "command": "stg",
+    "args": ["refresh", "--index"],
     "cwd": "$ZED_WORKTREE_ROOT",
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
@@ -108,7 +107,6 @@
   {
     "label": "stg spill",
     "command": "stg",
-    "cwd": "$ZED_WORKTREE_ROOT",
     "allow_concurrent_runs": false,
     "args": ["spill"],
   },
