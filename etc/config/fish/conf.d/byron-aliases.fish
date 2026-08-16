@@ -10,7 +10,7 @@ function __byron_alias --argument-names name body
         $body | source
 end
 
-__byron_alias g 'git'
+__byron_alias g git
 __byron_alias ga 'git add'
 __byron_alias gaa 'git add --all'
 __byron_alias gam 'git am'
@@ -206,13 +206,14 @@ __byron_alias sgg 'stg goto'
 __byron_alias sgr 'stg refresh'
 __byron_alias sgri 'stg refresh --index'
 __byron_alias sgs 'stg series -IPd'
-__byron_alias cdd 'cd-repo'
+__byron_alias cdd cd-repo
 __byron_alias wts 'wt switch'
-__byron_alias orc 'cd-repo-corpus'
+__byron_alias wtc 'wt switch -c'
+__byron_alias orc cd-repo-corpus
 __byron_alias l 'eza -abgl'
 __byron_alias lla 'eza -abgl'
-__byron_alias cat 'bat'
-__byron_alias tig 'tix'
-__byron_alias tigm 'tig -h main'
+__byron_alias cat bat
+__byron_alias tig tix
+__byron_alias tigm 'tig -h main -h master'
 
 functions --erase __byron_alias

@@ -1,13 +1,13 @@
 ---
 name: pr-full-auto
-description: Monitor and fix a GitHub pull request in full-auto mode until CI passes, then inspect and address non-nit review feedback. Use when the user asks Codex to watch a PR, fix failing checks, push StGit commits, respond to reviews on Byron's behalf, or keep iterating until the PR is green.
+description: Monitor and fix a GitHub pull request in full-auto mode until CI passes, then inspect and address non-nit review feedback. Use when the user asks Codex to watch a PR, fix failing checks, push Git commits, respond to reviews on Byron's behalf, or keep iterating until the PR is green.
 ---
 
 # PR Full Auto
 
 ## Operating Mode
 
-Treat this skill as permission to operate the PR end to end: inspect CI, make fixes, create StGit commits, push updates, monitor checks, inspect reviews, address non-nit feedback, and repeat until the PR is green or a real blocker is reached.
+Treat this skill as permission to operate the PR end to end: inspect CI, make fixes, create Git commits, push updates, monitor checks, inspect reviews, address non-nit feedback, and repeat until the PR is green or a real blocker is reached.
 
 Use existing GitHub skills for specialized mechanics:
 
@@ -41,7 +41,7 @@ Created by Codex on behalf of Byron. Byron will review before this is ready to m
 
 Then append the PR-specific content.
 
-Do not mention StGit patch names in PR descriptions. They are local-only bookkeeping. Summarize changes by behavior, files, tests, issue, commit title, or short SHA instead.
+Summarize changes in PR descriptions by behavior, files, tests, issue, commit title, or short SHA.
 
 ## CI Loop
 
@@ -52,7 +52,7 @@ Repeat until all required and relevant CI checks pass, or until a blocker is rea
 3. Reproduce locally when feasible with targeted commands.
 4. Implement the smallest coherent fix.
 5. Validate locally with the most relevant test, lint, build, or formatter check.
-6. Create a StGit commit for the fix, or update a StGit commit only if Codex created it during the current task.
+6. Create a Git commit for the fix.
 7. Push the PR branch. If the current worktree branch has no upstream yet, make the first push set it to track the resolved PR remote branch:
 
    ```bash
@@ -66,30 +66,26 @@ Treat non-GitHub Actions checks as report-only unless logs are available through
 
 If a check is flaky, rerun it only when logs strongly support flakiness. Prefer fixing deterministic failures.
 
-## StGit Commit Rules
+## Commit Rules
 
-Use StGit for all PR fixes.
+Use standard Git commits for all PR fixes.
 
-- For a new independent fix, use `stg new`.
-- For follow-up edits to a fix commit that Codex created during the current task, use `stg refresh`.
-- Never refresh, amend, squash into, or otherwise rewrite a commit or StGit patch that Codex did not create during the current task. If a fix logically belongs near an existing user-authored or pre-existing patch, create a new follow-up StGit patch instead.
-- Use other `stg` commands as appropriate for stack management, but do not discard user work.
-- Make patch names short, lowercase, and descriptive, such as `fix-ci-clippy`, `fix-review-docs`, or `address-null-case`.
+- Stage only intentional task-related files and create a new commit for each coherent fix.
+- Never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task. If a fix logically belongs near an existing user-authored commit, create a new follow-up commit instead.
 - Use concise commit messages that explain the user-visible reason for the fix.
-- Do not mention StGit patch names in commit messages; they are local bookkeeping only.
 - If an issue number is known and the first commit Codex creates during this skill is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
 - For commits created to fix CI, include a detailed commit body that explains how the failure was originally surfacing, names the failing check or command when known, summarizes the relevant error, and explains why the change fixes that failure.
 - When addressing review comments, make the commit title say it addresses review feedback, such as `Address review comment about <topic>`.
 - In review-fix commit bodies, repeat the relevant review comment and explain how the commit addresses it.
-- Include only intentional task-related files in each patch.
+- Include only intentional task-related files in each commit.
 - Do not add Byron as a co-author on commits created by Codex itself.
 - Add `Co-authored-by` trailers only when the user explicitly contributed specific code or text that is included in that commit.
 
-Set authorship explicitly on every new or refreshed StGit patch:
+Set authorship explicitly on every new commit:
 
 ```bash
-stg new --author="$model_name $model_version <codex@openai.com>" --message "<message>" <patch-name>
-stg refresh --author="$model_name $model_version <codex@openai.com>"
+git add <files>
+git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
 ```
 
 If exact runtime identity fields are unavailable, use:
@@ -97,14 +93,6 @@ If exact runtime identity fields are unavailable, use:
 ```bash
 --author="Codex GPT-5 <codex@openai.com>"
 ```
-
-When `stg refresh` rewrites commits already pushed to the PR branch, push with the safest required mode, normally:
-
-```bash
-git push --force-with-lease
-```
-
-Do not use plain `--force`.
 
 ## Review Handling
 
@@ -116,7 +104,7 @@ For review feedback:
 
 - Prefer thread-aware review data over flat comment lists.
 - Group related comments into one fix when sensible.
-- Feel free to create one StGit commit per review comment when that improves traceability.
+- Feel free to create one Git commit per review comment when that improves traceability.
 - Implement code/docs/test changes for actionable comments.
 - Leave ambiguous product/design choices open and ask the user only if the PR cannot proceed without the decision.
 - Do not resolve a thread until the requested state is achieved.
@@ -160,7 +148,7 @@ Finish when:
 
 - PR CI is passing, or remaining failures are clearly external/unactionable and summarized.
 - Non-nit actionable review feedback has been addressed or explicitly blocked.
-- StGit patches are pushed to the PR branch.
+- Git commits are pushed to the PR branch.
 - The final response summarizes commits or fixes created by title or SHA, checks observed, review threads addressed/skipped, and any residual risk.
 
 Do not merge the PR unless the user explicitly asks for merge/land/ship.

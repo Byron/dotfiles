@@ -1,13 +1,13 @@
 ---
 name: pr-from-session
-description: Create a GitHub draft pull request from the current branch and session context. Use when the user asks Codex to create a PR from the current session, including creating a StGit patch from intended local changes with Codex authorship, and writing a PR body that explains the goals, prompts, constraints, decisions, and validation. Always target and push to `origin`, create draft PRs by default, and disclose that the PR was created on behalf of Byron for Byron to review.
+description: Create a GitHub draft pull request from the current branch and session context. Use when the user asks Codex to create a PR from the current session, including creating a Git commit from intended local changes with Codex authorship, and writing a PR body that explains the goals, prompts, constraints, decisions, and validation. Always target and push to `origin`, create draft PRs by default, and disclose that the PR was created on behalf of Byron for Byron to review.
 ---
 
 # PR From Session
 
 ## Operating Mode
 
-Treat this skill as permission to turn the current session's intended local changes into a StGit patch and GitHub pull request. Use the active conversation/session plus local git state to write a PR description that explains what the PR is supposed to do and why.
+Treat this skill as permission to turn the current session's intended local changes into a Git commit and GitHub pull request. Use the active conversation/session plus local git state to write a PR description that explains what the PR is supposed to do and why.
 
 Do not amend, rebase, rewrite pre-existing commits, change branches, create worktrees, or push to any remote other than `origin`.
 
@@ -18,7 +18,6 @@ Do not amend, rebase, rewrite pre-existing commits, change branches, create work
    ```bash
    gh auth status
    git status --short
-   stg series
    git branch --show-current
    git remote get-url origin
    gh repo view --json nameWithOwner,defaultBranchRef
@@ -48,37 +47,35 @@ Do not amend, rebase, rewrite pre-existing commits, change branches, create work
 6. If local changes are mixed or include files unrelated to the current session, stage only the files that clearly belong to the session. If ownership is unclear, stop and ask the user which files belong in the PR.
 7. If a PR already exists for the current branch, report the existing PR instead of creating a duplicate unless the user explicitly asks for another PR.
 
-## StGit Patch Creation
+## Commit Creation
 
-Use StGit for the commit created by this skill.
+Use standard Git for the commit created by this skill.
 
 1. Stage intended session changes explicitly. Prefer file-specific staging. Use `git add -A` only when all local changes clearly belong to the current session.
 2. If there are no staged changes and no existing branch commits relative to the base, stop because there is nothing to PR.
-3. Create a short lowercase hyphenated patch name from the PR title or session goal, without `/`.
-4. Create the patch with explicit Codex authorship:
+3. Create the commit with explicit Codex authorship:
 
    ```bash
-   stg new --refresh --author="$model_name $model_version <codex@openai.com>" --message "<message>" <patch-name>
+   git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
    ```
 
-5. If exact runtime model fields are unavailable, use:
+4. If exact runtime model fields are unavailable, use:
 
    ```bash
-   --author="Codex GPT-5 <codex@openai.com>"
+   git commit --author="Codex GPT-5 <codex@openai.com>" -m "<message>"
    ```
 
-6. Write a descriptive commit message:
+5. Write a descriptive commit message:
    - Title: concise user-visible change.
    - If an issue number is known and this commit is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
    - Body: session goal, relevant prompt/context, implementation summary, and validation run.
-   - Do not mention the StGit patch name; it is local bookkeeping and not useful commit history.
-7. Include only intentional session-related files in the patch.
-8. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
-9. Never refresh, amend, squash into, or otherwise rewrite a commit or StGit patch that Codex did not create during the current task.
+6. Include only intentional session-related files in the commit.
+7. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
+8. Never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
 
 ## Pull Request Creation
 
-1. After the StGit patch is created, or after confirming the branch already contains all intended commits, push the current branch to `origin`:
+1. After the commit is created, or after confirming the branch already contains all intended commits, push the current branch to `origin`:
 
    ```bash
    git push -u origin "$(git branch --show-current)"
@@ -139,7 +136,7 @@ Guidelines:
 - Put quoted user prompts last, each line prefixed with `> `.
 - Include only prompts relevant to the PR's scope.
 - Never imply Byron personally authored or reviewed the Codex-created work.
-- Do not mention StGit patch names in the PR title or body; they are local-only bookkeeping. Summarize the change by behavior, files, tests, issue, or commit title instead.
+- Summarize the change by behavior, files, tests, issue, or commit title.
 
 ## Stop Conditions
 
@@ -147,7 +144,6 @@ Stop and report the blocker when:
 
 - `gh` is unavailable or unauthenticated.
 - The current directory is not a git repository.
-- The current worktree is not usable as an StGit stack.
 - `origin` is missing, inaccessible, or not a GitHub remote.
 - The current branch is the selected base/default branch.
 - There are no intended local changes and no commits on the current branch relative to the selected base.
@@ -161,7 +157,7 @@ Stop and report the blocker when:
 
 Finish when:
 
-- Intended session changes were captured in a StGit patch with explicit Codex authorship, unless the branch already contained all intended commits.
+- Intended session changes were captured in a Git commit with explicit Codex authorship, unless the branch already contained all intended commits.
 - Branch work has been pushed to `origin`.
 - A draft PR has been opened unless the user explicitly requested ready-for-review.
 - The PR targets the `origin` repository and selected base branch.

@@ -31,9 +31,9 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         echo 'Completed CI without a merge will be reported as a warning.'
     end
     if set -q _flag_no_cleanup
-        echo 'If merged, will run: stg commit -a; and git fetch'
+        echo 'If merged, will run: git fetch'
     else
-        echo 'If merged, will run: stg commit -a; and wt remove -D; and git pull --ff-only'
+        echo 'If merged, will run: wt remove -D; and git pull --ff-only'
     end
 
     printf '\e]2;wait-pr %s\e\\' "$pr"
@@ -45,9 +45,9 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
             printf '\e]9;✅ PR #%s merged: %s\e\\' "$pr" "$title"
             echo ' ✅ merged'
             if set -q _flag_no_cleanup
-                stg commit -a; and git fetch
+                git fetch
             else
-                stg commit -a; and wt remove -D; and git pull --ff-only
+                wt remove -D; and git pull --ff-only
             end
             set -l cleanup_status $status
             printf '\e]9;4;0\e\\'

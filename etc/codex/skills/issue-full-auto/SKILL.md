@@ -1,13 +1,13 @@
 ---
 name: issue-full-auto
-description: "Work a GitHub issue URL, GitHub security advisory URL, or plain-text issue report end to end in full-auto mode from a user-prepared pristine non-base worktree: verify the local clone and remote, refuse if the starting worktree is not set or is not clean, write a regression test, fix the issue, create StGit commits with Codex authorship, run one Codex review per commit, push the current branch explicitly, open a GitHub PR as Byron with disclosure, then invoke pr-full-auto for CI and review follow-up. Use when the user asks Codex to fix, implement, or work on a GitHub issue, advisory, or issue-like report automatically."
+description: "Work a GitHub issue URL, GitHub security advisory URL, or plain-text issue report end to end in full-auto mode from a user-prepared pristine non-base worktree: verify the local clone and remote, refuse if the starting worktree is not set or is not clean, write a regression test, fix the issue, create Git commits with Codex authorship, run one Codex review per commit, push the current branch explicitly, open a GitHub PR as Byron with disclosure, then invoke pr-full-auto for CI and review follow-up. Use when the user asks Codex to fix, implement, or work on a GitHub issue, advisory, or issue-like report automatically."
 ---
 
 # Issue Full Auto
 
 ## Operating Mode
 
-Treat this skill as permission to take a GitHub issue URL, GitHub security advisory URL, or plain-text issue report from report to pull request only from a user-prepared pristine worktree: inspect the issue context, verify the starting worktree, reproduce the problem with a test, implement the fix, validate it, create StGit commits, push the current branch explicitly, open a PR, and then use `pr-full-auto` to drive the PR through CI and review.
+Treat this skill as permission to take a GitHub issue URL, GitHub security advisory URL, or plain-text issue report from report to pull request only from a user-prepared pristine worktree: inspect the issue context, verify the starting worktree, reproduce the problem with a test, implement the fix, validate it, create Git commits, push the current branch explicitly, open a PR, and then use `pr-full-auto` to drive the PR through CI and review.
 
 Do not merge the PR, close the issue manually, bypass branch protection, create or switch worktrees, change directories away from the starting worktree, or perform destructive git operations unless the user explicitly asks.
 
@@ -54,20 +54,18 @@ The starting directory is the only allowed worktree for this skill. Do not run `
    git rev-parse --show-toplevel
    git branch --show-current
    git status --short
-   stg series
    git rev-parse --abbrev-ref --symbolic-full-name @{u}
    ```
 
    If `@{u}` is unset, that is acceptable. If it is set, it must not resolve to `origin/main`, `origin/master`, or any other base branch.
 3. The current branch must not be `main`, `master`, a release branch, or any branch whose upstream is a base branch. If the branch fails one of those checks, stop and ask the user to start Codex in a pristine worktree on a non-base work branch.
-4. The starting worktree must be pristine: `git status --short` and `stg series` must both be empty. Treat any existing file changes, untracked files, or StGit patches as user-owned and stop.
-5. Do all test, fix, review, commit, push, and PR work from the starting worktree only. Before the first StGit command and before the first push, re-run:
+4. The starting worktree must be pristine: `git status --short` must be empty. Treat any existing file changes or untracked files as user-owned and stop.
+5. Do all test, fix, review, commit, push, and PR work from the starting worktree only. Before the first commit and before the first push, re-run:
 
    ```bash
    pwd
    git branch --show-current
    git status --short
-   stg series
    ```
 
    The `pwd` output must match the recorded starting path every time.
@@ -83,55 +81,54 @@ The starting directory is the only allowed worktree for this skill. Do not run `
    - Forbidden (protected expression copied verbatim or near-verbatim): Git's prose comments, multi-line user-facing message strings, and code whose structure, naming, and layout track the C beyond what the method requires.
 5. Implement the smallest coherent fix that satisfies the regression test and fits the repo's existing patterns.
 6. Run the focused test first, then the nearest repo-standard validation that is proportional to the change.
-7. Do not run `codex review --uncommitted` in this workflow. Codex review happens only after a StGit commit exists, and only once per commit hash.
+7. Do not run `codex review --uncommitted` in this workflow. Codex review happens only after a commit exists, and only once per commit hash.
 8. If you notice an issue yourself before committing, fix it directly; do not invoke Codex review as a pre-commit check.
 
-## StGit Commit Rules
+## Commit Rules
 
-Use StGit for all commits created by this skill.
+Use standard Git commits for all commits created by this skill.
 
-Before creating or refreshing any StGit patch, run `pwd` and `git branch --show-current`. The path must be the recorded starting worktree, and the branch must be the same current branch recorded during starting-worktree verification. If either check fails, stop immediately.
+Before creating any commit, run `pwd` and `git branch --show-current`. The path must be the recorded starting worktree, and the branch must be the same current branch recorded during starting-worktree verification. If either check fails, stop immediately.
 
-1. Create the first patch with the fixed worktree content:
+1. Stage only the intentional files and create the first commit:
 
    ```bash
-   stg new --refresh --author="$model_name $model_version <codex@openai.com>" --message "<message>" <patch-name>
+   git add <files>
+   git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
    ```
 
 2. If exact runtime model fields are unavailable, use:
 
    ```bash
-   --author="Codex GPT-5 <codex@openai.com>"
+   git commit --author="Codex GPT-5 <codex@openai.com>" -m "<message>"
    ```
 
-3. Make the patch name short, lowercase, and hyphenated, without `/`.
-4. Write a descriptive commit message:
+3. Write a descriptive commit message:
    - Title: concise user-visible fix.
    - In URL-backed mode, if this first patch is related to the issue fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
    - Body: issue summary, failing test/reproduction, fix rationale, validation run.
    - In advisory-backed mode, reference the GHSA ID and include only the advisory details needed to understand the fix. Avoid reproducing sensitive exploit details unless they are already public and necessary.
    - In plain-text report mode, include a concise summary of the user-provided report rather than a GitHub issue reference.
    - For git-related issues: include the Git baseline/reference details found during research.
-   - Do not mention the StGit patch name; it is local bookkeeping and not useful commit history.
-5. Get the new commit hash, then run exactly once for that hash:
+4. Get the new commit hash, then run exactly once for that hash:
 
    ```bash
    codex review --commit <hash>
    ```
 
    Do not also run `codex review --uncommitted`, and do not rerun review for the same commit hash.
-6. Address substantive review findings. Ignore only findings that are clearly false positives or unrelated to the task, and mention that judgment in the final summary.
-7. For small follow-up edits from commit review, update the same patch:
+5. Address substantive review findings. Ignore only findings that are clearly false positives or unrelated to the task, and mention that judgment in the final summary.
+6. Commit review fixes as a new commit with explicit Codex authorship:
 
    ```bash
-   stg refresh --author="$model_name $model_version <codex@openai.com>"
+   git add <files>
+   git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
    ```
 
-   Use the fallback author if needed.
-8. If `stg refresh` changes the commit hash, run `codex review --commit <new-hash>` exactly once for the new hash. This is a review for the new commit, not a repeat review of the old hash.
-9. For substantial independent review findings, create another StGit patch with `stg new --refresh --author=...`, then run one Codex review for that new commit hash.
-10. Include only intentional issue-related files in each patch.
-11. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
+   Use the fallback author if needed, then run one Codex review for the new commit hash.
+7. Include only intentional issue-related files in each commit.
+8. Do not amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
+9. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
 
 ## Pull Request
 
@@ -170,8 +167,8 @@ Before creating or refreshing any StGit patch, run `pwd` and `git branch --show-
    - Do not use `Fixes #...` or `Refs #...` unless there is also a real GitHub issue.
    - Keep the PR body sanitized if the advisory is private, embargoed, or includes details that should not be publicly disclosed.
 8. In plain-text report mode, include the exact user-provided issue text in the PR body under a `Reported issue` section instead of an issue URL or `Fixes`/`Refs` line.
-9. Include a concise test summary and any notable Git reference/baseline details. Do not mention StGit patch names in the PR title or body; summarize changes by issue, behavior, files, tests, commit title, or short SHA instead.
-10. After the PR exists, invoke the `pr-full-auto` skill on the PR URL to monitor CI, inspect reviews, address non-nit feedback, push StGit follow-up commits, and continue until green or blocked.
+9. Include a concise test summary and any notable Git reference/baseline details. Summarize changes by issue, behavior, files, tests, commit title, or short SHA.
+10. After the PR exists, invoke the `pr-full-auto` skill on the PR URL to monitor CI, inspect reviews, address non-nit feedback, push follow-up commits, and continue until green or blocked.
 
 ## Stop Conditions
 
@@ -183,7 +180,7 @@ Stop and report the blocker when:
 - In plain-text report mode, the current local clone has no pushable GitHub remote.
 - The starting worktree path is not set, cannot be confirmed, is not a Git worktree, or later commands cannot be run from that same path.
 - The starting branch is `main`, `master`, a release branch, or has upstream tracking to a base branch such as `origin/main` or `origin/master`.
-- The starting worktree is not pristine: `git status --short` or `stg series` is non-empty.
+- The starting worktree is not pristine: `git status --short` is non-empty.
 - A regression test cannot be written without unavailable services, credentials, production access, or product decisions.
 - The issue requires product, design, security, billing, deployment, or permission judgment outside the issue's clear scope.
 - A git-related issue needs `/Users/byron/dev/github.com/git/git`, but that reference checkout is unavailable.
@@ -196,7 +193,7 @@ Finish when:
 - A PR has been opened for the issue or report.
 - For advisory-backed mode, the PR body references the advisory URL and GHSA ID, and sensitive advisory details are handled according to disclosure needs.
 - For plain-text report mode, the PR body reproduces the user-provided issue text instead of linking a GitHub issue.
-- StGit patch authorship is explicit.
+- Commit authorship is explicit.
 - The branch was pushed with an explicit `HEAD:refs/heads/<current-branch>` refspec, not via upstream tracking.
 - Codex review was run only after commits existed, exactly once per commit hash, or any inability to run it is explained.
 - Relevant tests and validation were run, or unavailable validation is explained.

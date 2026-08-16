@@ -24,6 +24,7 @@
   },
   "show_edit_predictions": false,
   "edit_predictions": {
+    "allow_data_collection": "no",
     "provider": "open_ai_compatible_api",
     "mode": "subtle",
     "open_ai_compatible_api": {
@@ -45,8 +46,8 @@
     "codex-acp": {
       "default_config_options": {
         "model": "gpt-5.6-sol",
-        "reasoning_effort": "low",
-        "mode": "agent-full-access"
+        "reasoning_effort": "medium",
+        "mode": "agent"
       },
       "type": "registry"
     }

@@ -61,7 +61,6 @@ copy-on-select = clipboard
 unfocused-split-opacity = 0.85
 unfocused-split-fill = #101010
 split-divider-color = #5a5a5a
-keybind = global:ctrl+super+backquote=toggle_quick_terminal
 
 # Helix terminal compatibility
 macos-option-as-alt = true
