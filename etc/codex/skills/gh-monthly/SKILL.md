@@ -1,6 +1,6 @@
 ---
 name: gh-monthly
-description: Create Gitoxide monthly report outlines from GitHub and local git activity. Use when Byron asks for gh-monthly, a Gitoxide monthly report outline, or preparation for the report usually created around the 22nd. The skill uses `gh` to inspect all GitHub activity for the previous calendar month, reads `/Users/byron/dev/github.com/GitoxideLabs/gitoxide` for git history and `etc/reports` samples, and incorporates must-include topics with summaries of how they were covered in the prior month.
+description: Create Gitoxide monthly report outlines from GitHub and local git activity. Use when Byron asks for gh-monthly, a Gitoxide monthly report outline, or preparation for the report usually created around the 22nd. The skill uses `gh` to inspect all GitHub activity since the prior report or its last covered release, reads `/Users/byron/dev/github.com/GitoxideLabs/gitoxide` for git history and `etc/reports` samples, and incorporates must-include topics with summaries of how they were covered in the prior report.
 ---
 
 # GH Monthly
@@ -11,7 +11,10 @@ Create an outline for a Gitoxide monthly report. Produce a full draft only if ex
 
 - The Gitoxide checkout is `/Users/byron/dev/github.com/GitoxideLabs/gitoxide`.
 - Byron usually creates the report around the 22nd of each month.
-- If the target month is not specified, outline the previous calendar month.
+- If the target month is not specified, outline the current report month.
+- The reporting window starts immediately after the prior report's effective cutoff and ends at the current cutoff, usually today around the 22nd.
+- If the prior cutoff is unclear, use the latest project release covered by the prior report, even when it was published after the nominal report date. Treat its publication timestamp as an exclusive lower bound so neither that release nor its release activity is repeated in the new report.
+- Release data is boundary bookkeeping, not report material. Do not add release sections, tag lists, or version rollups unless Byron explicitly asks for them.
 - Target report path is `etc/reports/YY-MM.md`.
 - Use `etc/reports` as the style and structure reference.
 
@@ -24,7 +27,7 @@ For each topic, preserve:
 - topic name
 - why it matters this month
 - what was written about it in the prior month
-- links, PRs, issues, releases, contributors, or rough notes
+- links, PRs, issues, contributors, or rough notes
 
 Do not ask for topics. If none are provided, infer topics from GitHub and git activity.
 
@@ -36,7 +39,7 @@ Run all commands from the local checkout unless another path is explicitly provi
 cd /Users/byron/dev/github.com/GitoxideLabs/gitoxide
 ```
 
-Use exact date bounds for the previous calendar month. For a report created in May 2026, inspect `2026-04-01..2026-04-30`.
+Use exact timestamp bounds when available and state them in the outline. For the August 2026 report, if the prior report's last covered release is `v0.56.0` at `2026-07-23T13:24:10Z`, inspect activity strictly after that instant through the August 22 query time; do not include the `v0.56.0` release wave. GitHub date qualifiers are inclusive and day-granular, so fetch timestamps in JSON and filter boundary-day results locally when necessary.
 
 Use `gh` to inspect repository-wide GitHub activity, not only Byron's activity:
 
@@ -70,7 +73,7 @@ Read report samples:
 
 Prioritize material that helps explain the month:
 
-- releases, security work, correctness fixes, performance work, compatibility, or user-visible API/CLI changes
+- security work, correctness fixes, performance work, compatibility, or user-visible API/CLI changes
 - continued long-running themes from prior reports
 - contributor work and review-heavy community activity
 - PRs/issues whose discussion explains important design decisions
@@ -82,8 +85,8 @@ Keep uncertainty visible. If GitHub or local history is incomplete, say what cou
 
 ## Outline Workflow
 
-1. Determine target month and target report path.
-2. Gather GitHub PR, issue, release, and discussion activity with `gh`.
+1. Determine the target month, target report path, effective prior cutoff or last covered release timestamp, and current cutoff.
+2. Gather GitHub PR, issue, and discussion activity with `gh`; query releases only to establish the lower bound.
 3. Inspect local git history for the same date range.
 4. Read relevant `etc/reports` samples.
 5. Identify continuity from the prior report:
@@ -122,7 +125,7 @@ Facts to confirm:
 ### Proposed section title
 
 Evidence:
-- PR/issue/release/local commit references
+- PR/issue/local commit references
 Outline:
 - ...
 

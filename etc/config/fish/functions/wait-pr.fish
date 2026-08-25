@@ -82,8 +82,8 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                 end
             else
                 if test "$ci_done_seen" = true
-                    printf '\e]9;⚠️ PR #%s CI finished, but is not merged: %s\e\\' "$pr" "$title"
-                    echo ' ⚠️ CI finished; PR is not merged'
+                    printf '\e]9;✅⚠️ PR #%s CI finished, but is not merged: %s\e\\' "$pr" "$title"
+                    echo ' ✅⚠️ CI finished; PR is not merged'
                     printf '\e]9;4;0\e\\'
                     return
                 end

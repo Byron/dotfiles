@@ -7,9 +7,34 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "language_models": {
+    "openai_compatible": {
+      "Azure": {
+        "api_url": "https://openai-instance-g2.services.ai.azure.com/openai/v1",
+        "available_models": [
+          {
+            "name": "gpt-5.6-sol",
+            "max_tokens": 200000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "reasoning_effort": "medium",
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": true,
+              "chat_completions": false,
+              "interleaved_reasoning": false,
+              "max_tokens_parameter": false,
+            },
+          },
+        ],
+      },
+    },
+  },
   "when_closing_with_no_tabs": "keep_window_open",
   "diagnostics": {
-    "button": false
+    "button": false,
   },
   "zoom": 100,
   "ui_font_size": 16.0,
@@ -46,11 +71,11 @@
     "codex-acp": {
       "default_config_options": {
         "model": "gpt-5.6-sol",
-        "reasoning_effort": "medium",
-        "mode": "agent"
+        "reasoning_effort": "high",
+        "mode": "agent-full-access",
       },
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "outline_panel": {
     "dock": "left",
@@ -92,6 +117,15 @@
   },
   "remove_trailing_whitespace_on_save": false,
   "agent": {
+    "sandbox_permissions": {
+      "allow_unsandboxed": true,
+      "network_hosts": [
+        "raw.githubusercontent.com"
+      ]
+    },
+    "auto_compact": {
+      "threshold": "90%",
+    },
     "sidebar_side": "left",
     "flexible": true,
     "message_editor_min_lines": 4,
@@ -136,10 +170,12 @@
     },
     "notify_when_agent_waiting": "never",
     "dock": "right",
-    "default_profile": "ask",
+    "default_profile": "allow-all",
     "default_model": {
-      "provider": "lmstudio",
-      "model": "qwen/qwen3.5-35b-a3b",
+      "effort": "high",
+      "enable_thinking": true,
+      "provider": "Azure",
+      "model": "gpt-5.6-sol",
     },
     "favorite_models": [],
     "inline_assistant_model": {
