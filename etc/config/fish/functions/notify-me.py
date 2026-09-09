@@ -42,7 +42,8 @@ def main():
     interrupted = False
     process = None
     try:
-        process = subprocess.Popen(args)
+        # Fish resolves shell functions; $argv preserves argument boundaries.
+        process = subprocess.Popen(["fish", "-c", "$argv", "--", *args])
         result = process.wait()
     except FileNotFoundError:
         result = 127

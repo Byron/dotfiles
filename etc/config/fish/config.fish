@@ -73,3 +73,12 @@ set -gx PATH $PATH /Users/byron/.cache/lm-studio/bin
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+# Use nvm's Node version after the other PATH setup.
+if test -s "$HOME/.nvm/nvm.sh"
+    if set -q NVM_BIN; and test -x "$NVM_BIN/node"
+        fish_add_path --path --move "$NVM_BIN"
+    else
+        nvm use --silent default
+    end
+end

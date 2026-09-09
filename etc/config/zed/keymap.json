@@ -97,5 +97,17 @@
     "unbind": {
       "cmd-shift-k": "editor::DeleteLine"
     }
+  },
+  {
+    "context": "BufferInlineAssistant && inline_assistant_idle > Editor && !showing_completions",
+    "bindings": {
+      "ctrl-shift-enter": "inline_assistant::SendToThread"
+    }
+  },
+  {
+    "context": "BufferInlineAssistant && inline_assistant_idle > Editor && !showing_completions",
+    "unbind": {
+      "shift-enter": "inline_assistant::SendToThread"
+    }
   }
 ]

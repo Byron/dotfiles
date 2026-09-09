@@ -217,7 +217,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="$HOME/.local/bin:$PATH"
 
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+if command -v tix >/dev/null 2>&1; then eval "$(command tix wt shell-init zsh)"; fi
 
 alias wts='wt switch'
 

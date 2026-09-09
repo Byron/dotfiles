@@ -204,7 +204,7 @@ __byron_alias gwtmv 'git worktree move'
 __byron_alias gwtrm 'git worktree remove'
 __byron_alias cdd cd-repo
 __byron_alias wts 'wt switch'
-__byron_alias wtc 'wt switch -c'
+__byron_alias wtc 'wt switch --new-branch'
 __byron_alias orc cd-repo-corpus
 __byron_alias l 'eza -abgl'
 __byron_alias lla 'eza -abgl'

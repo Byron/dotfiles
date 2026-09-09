@@ -36,7 +36,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         echo 'If merged, will run: wt remove -D; and git pull --ff-only'
     end
 
-    printf '\e]2;wait-pr %s\e\\' "$pr"
+    printf '\e]2;wait-pr %s#%s\e\\' (string split / -- "$url")[5] "$pr"
     printf '\e]9;4;3\e\\'
     while true
         set -l state (gh pr view "$url" --json state --jq .state 2>/dev/null)
