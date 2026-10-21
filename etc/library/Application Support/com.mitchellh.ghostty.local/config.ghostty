@@ -114,10 +114,15 @@ keybind = cmd+ctrl+5=goto_pin:5
 stream-deck = true
 
 command = direct:/Users/byron/.cargo/bin/fish --interactive-language=bash 
+# For speed-reference (instant)
+# command = direct:bash
 
 tmuxx-connection = Azure Linux = ssh:20.240.208.217
 tmuxx-ssh-command-host = 20.240.208.217 = /home/byron/.cargo/bin/tmuxx -L rustty --native-stdio
+tmuxx-theme-session = work = 0x96f
+
 
 
 tmuxx-connection = Azure Windows = ssh:byron@20.240.62.172
 tmuxx-ssh-command-host = byron@20.240.62.172 = & "C:/Users/byron/Desktop/dev/ghostty/target/release/Rustty/rustty.exe" tmux --native-stdio | ForEach-Object { $_ }
+tmuxx-theme-session = rustty-18324-296 = GitHub Dark High Contrast

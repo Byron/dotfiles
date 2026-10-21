@@ -62,7 +62,11 @@ function __ghostty_git_repo_background --on-variable PWD
     or test "$TERM_PROGRAM" = ghostty
     or return
 
+    test "$__ghostty_git_repo_background_pwd" = "$PWD"
+    and return
+
     set -l color (__ghostty_git_repo_background_color "$PWD")
+    set -g __ghostty_git_repo_background_pwd "$PWD"
     if test -n "$color"
         printf "\e]11;%s\e\\" $color
     else

@@ -27,13 +27,25 @@ if status is-interactive
 end
 
 if test -x /opt/homebrew/bin/brew
-    /opt/homebrew/bin/brew shellenv | source
+    set -gx HOMEBREW_PREFIX /opt/homebrew
+    set -gx HOMEBREW_CELLAR /opt/homebrew/Cellar
+    set -gx HOMEBREW_REPOSITORY /opt/homebrew
+    fish_add_path --global --move --path /opt/homebrew/bin /opt/homebrew/sbin
+    if test -n "$MANPATH"
+        set -gx MANPATH (string replace --regex '^:*(.*?):*$' ':$1' -- "$MANPATH")
+    end
+    if not set -q INFOPATH
+        set INFOPATH ''
+    end
+    set -gx INFOPATH /opt/homebrew/share/info $INFOPATH
     set -gx HOMEBREW_NO_ANALYTICS 1
 
     if test -d /opt/homebrew/opt/awscli@1/bin
         fish_add_path -g /opt/homebrew/opt/awscli@1/bin
     end
 end
+
+fish_add_path --path --append /usr/local/bin
 
 set -gx EDITOR hx
 set -gx VISUAL hx
@@ -42,20 +54,23 @@ set -gx AZURE_OPENAI_BASE_URL https://openai-instance-g2.openai.azure.com/openai
 # set -gx http_proxy http://127.0.0.1:8118
 
 if command -q gpgconf
-    gpgconf --launch gpg-agent >/dev/null 2>/dev/null
     set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 end
 
+set -l gpg_agent_commands /bye
 if test -t 0
     set -l tty_path (tty 2>/dev/null)
 
     if test $status -eq 0
         set -gx GPG_TTY $tty_path
 
-        if command -q gpg-connect-agent
-            gpg-connect-agent updatestartuptty /bye >/dev/null 2>/dev/null
-        end
+        set gpg_agent_commands updatestartuptty /bye
     end
+end
+
+if command -q gpg-connect-agent
+    # One connection starts the SSH agent and updates pinentry's terminal when available.
+    gpg-connect-agent $gpg_agent_commands >/dev/null 2>/dev/null
 end
 
 if test -d "$HOME/.cargo/bin"
@@ -73,12 +88,3 @@ set -gx PATH $PATH /Users/byron/.cache/lm-studio/bin
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
-
-# Use nvm's Node version after the other PATH setup.
-if test -s "$HOME/.nvm/nvm.sh"
-    if set -q NVM_BIN; and test -x "$NVM_BIN/node"
-        fish_add_path --path --move "$NVM_BIN"
-    else
-        nvm use --silent default
-    end
-end
