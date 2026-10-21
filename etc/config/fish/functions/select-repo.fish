@@ -6,5 +6,5 @@ function select-repo --description 'Select a repository under ~/dev'
     begin
         cd $root
         and ein --quiet t find
-    end | sk -q "$query"
+    end | sk --scheme path -q "$query"
 end

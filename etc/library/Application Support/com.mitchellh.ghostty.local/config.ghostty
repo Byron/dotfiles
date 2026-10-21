@@ -52,7 +52,12 @@
 
 # Keep Ghostty silent even if bell defaults change upstream.
 bell-features = no-system,no-audio,attention
-notify-on-command-finish-action = notify
+# notify-on-command-finish = unfocused
+# notify-on-command-finish-after = 5s
+notify-on-command-finish-action = no-bell,notify
+
+notify-on-command-finish-exclude = vim
+notify-on-command-finish-exclude = hx
 
 # Quick terminal toggle
 window-save-state = always
@@ -92,3 +97,27 @@ keybind = super+ctrl+k=goto_split:quadrant_up
 keybind = super+ctrl+l=goto_split:quadrant_right
 
 keybind = cmd+shift+f=toggle_quadrant_zoom
+keybind = cmd+shift+o=toggle_outliner
+keybind = cmd+alt+p=toggle_pin
+
+keybind = cmd+shift+1=unbind
+keybind = cmd+ctrl+1=goto_pin:1
+keybind = cmd+shift+2=unbind
+keybind = cmd+ctrl+2=goto_pin:2
+keybind = cmd+shift+3=unbind
+keybind = cmd+ctrl+3=goto_pin:3
+keybind = cmd+shift+4=unbind
+keybind = cmd+ctrl+4=goto_pin:4
+keybind = cmd+shift+5=unbind
+keybind = cmd+ctrl+5=goto_pin:5
+
+stream-deck = true
+
+command = direct:/Users/byron/.cargo/bin/fish --interactive-language=bash 
+
+tmuxx-connection = Azure Linux = ssh:20.240.208.217
+tmuxx-ssh-command-host = 20.240.208.217 = /home/byron/.cargo/bin/tmuxx -L rustty --native-stdio
+
+
+tmuxx-connection = Azure Windows = ssh:byron@20.240.62.172
+tmuxx-ssh-command-host = byron@20.240.62.172 = & "C:/Users/byron/Desktop/dev/ghostty/target/release/Rustty/rustty.exe" tmux --native-stdio | ForEach-Object { $_ }

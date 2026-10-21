@@ -73,7 +73,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
                     echo ' ✅ CI finished; requesting merge'
                     if not gh pr merge "$url" --merge
                         printf '\e]9;❌ PR #%s could not be merged: %s\e\\' "$pr" "$title"
-                        echo ' ❌ merge failed'
+                        echo " ❌ merge failed: $url"
                         printf '\e]9;4;0\e\\'
                         return 1
                     end

@@ -1,6 +1,6 @@
 ---
 name: pr-full-auto
-description: Monitor and fix a GitHub pull request in full-auto mode until CI passes, then inspect and address non-nit review feedback. Use when the user asks Codex to watch a PR, fix failing checks, push Git commits, respond to reviews on Byron's behalf, or keep iterating until the PR is green.
+description: Monitor and fix a GitHub pull request in full-auto mode until CI passes, then inspect and address non-nit review feedback. Use when the user asks Codex to watch a PR, fix failing checks, push Git commits, respond to reviews on Byron's behalf, or keep iterating until the PR is green. After completion, follow-up prompts stay local unless the user explicitly requests new GitHub work.
 ---
 
 # PR Full Auto
@@ -16,15 +16,22 @@ Use existing GitHub skills for specialized mechanics:
 - Use GitHub app tools for PR metadata, diffs, comments, reviews, and GitHub writes when available.
 - Use `gh` for Actions logs, review-thread GraphQL details, and operations not exposed by the GitHub app.
 
+## Workflow Lifetime
+
+GitHub authorization applies to the current run. Once all requested PR work is complete, state that the PR workflow is finished and later prompts default to local work; preserve that state in any continuation summary. A handoff or temporary blocker is not completion.
+
+After completion, follow the new prompt and the repository's local workflow, including the `tix` skill for Tix-managed history work. Do not read or write GitHub, poll CI or reviews, or fetch, pull, or push GitHub remotes unless the user explicitly requests new GitHub work. Local edits, tests, commits, or a generic "continue" do not reactivate this workflow. A new GitHub request authorizes only the requested scope.
+
 ## Resolve Context
 
 1. Expect the current branch and worktree where the skill was invoked to already match the mentioned PR.
 2. Resolve the repository and PR number from the user's URL/number or the current branch, then verify that the current branch/worktree corresponds to that PR.
-3. Do not change branches, create branches, create worktrees, or move to a different checkout. Work only in the current worktree.
+3. Work only in the current worktree. Do not create branches or worktrees, or move to another checkout. Tix travel within the PR's history and back to the recorded work branch is allowed; otherwise, do not change branches.
 4. Run `gh auth status` before relying on `gh`.
 5. Inspect PR metadata: head branch, base branch, author, mergeability if available, current checks, review status, unresolved threads, and recent comments.
 6. Inspect local state with `git status --short`.
 7. Treat uncommitted local changes as user-owned unless they were created in the current task. Do not revert or overwrite them.
+8. In Tix-managed checkouts, read the available `tix` skill and the shared [Tix workflow](references/tix-workflow.md) before editing, including tests. Select and reach the target before each CI or review fix.
 
 ## PR Description Format
 
@@ -52,15 +59,15 @@ Repeat until all required and relevant CI checks pass, or until a blocker is rea
 3. Reproduce locally when feasible with targeted commands.
 4. Implement the smallest coherent fix.
 5. Validate locally with the most relevant test, lint, build, or formatter check.
-6. Create a Git commit for the fix.
-7. Push the PR branch. If the current worktree branch has no upstream yet, make the first push set it to track the resolved PR remote branch:
+6. Record the fix with the selected Tix amendment, fixup, or new commit. In non-Tix checkouts, create a new Git commit.
+7. For Tix, restore the work branch and follow the shared [push procedure](references/tix-workflow.md#push-the-restored-branch). In non-Tix checkouts, push the PR branch; if it has no upstream yet, make the first push set it to track the resolved PR remote branch:
 
    ```bash
    git push --set-upstream <remote> HEAD:<pr-head-branch>
    ```
 
    Resolve `<remote>` and `<pr-head-branch>` from the verified PR context; do not assume `origin` when the PR head belongs to another configured remote.
-8. Monitor checks again.
+8. Monitor checks for the pushed head.
 
 Treat non-GitHub Actions checks as report-only unless logs are available through the check URL or the user has provided the provider-specific access path.
 
@@ -68,20 +75,20 @@ If a check is flaky, rerun it only when logs strongly support flakiness. Prefer 
 
 ## Commit Rules
 
-Use standard Git commits for all PR fixes.
+For Tix, use the operation and placement selected before editing, including its exact fixup subject and required note. The `git commit` examples and append-only rules below apply only to non-Tix checkouts.
 
-- Stage only intentional task-related files and create a new commit for each coherent fix.
-- Never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task. If a fix logically belongs near an existing user-authored commit, create a new follow-up commit instead.
+- Stage only intentional task-related files. In non-Tix checkouts, create a new commit for each coherent fix.
+- In non-Tix checkouts, never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task. If a fix logically belongs near an existing user-authored commit, create a new follow-up commit instead.
 - Use concise commit messages that explain the user-visible reason for the fix.
-- If an issue number is known and the first commit Codex creates during this skill is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
+- If an issue number is known and the first new non-fixup commit is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
 - For commits created to fix CI, include a detailed commit body that explains how the failure was originally surfacing, names the failing check or command when known, summarizes the relevant error, and explains why the change fixes that failure.
-- When addressing review comments, make the commit title say it addresses review feedback, such as `Address review comment about <topic>`.
+- For a new non-fixup commit addressing review comments, make the title say it addresses review feedback, such as `Address review comment about <topic>`. Tix fixups retain their exact `fixup!` subject.
 - In review-fix commit bodies, repeat the relevant review comment and explain how the commit addresses it.
 - Include only intentional task-related files in each commit.
 - Do not add Byron as a co-author on commits created by Codex itself.
 - Add `Co-authored-by` trailers only when the user explicitly contributed specific code or text that is included in that commit.
 
-Set authorship explicitly on every new commit:
+Set Codex authorship explicitly on new independent commits and fixups; amendments and replay follow Tix's authorship rules. For non-Tix commits:
 
 ```bash
 git add <files>
@@ -104,7 +111,6 @@ For review feedback:
 
 - Prefer thread-aware review data over flat comment lists.
 - Group related comments into one fix when sensible.
-- Feel free to create one Git commit per review comment when that improves traceability.
 - Implement code/docs/test changes for actionable comments.
 - Leave ambiguous product/design choices open and ask the user only if the PR cannot proceed without the decision.
 - Do not resolve a thread until the requested state is achieved.
@@ -137,7 +143,7 @@ Stop and ask or report a blocker when:
 - The work would touch secrets, production systems, deployments, billing, permissions, or security posture beyond the PR scope.
 - The next step would merge, close, mark ready, convert draft state, request changes, enable auto-merge, bypass checks, or override branch protection.
 - Local changes conflict with user-owned work.
-- The current branch/worktree does not match the mentioned PR.
+- The starting branch/worktree does not match the mentioned PR, or Tix cannot restore the recorded work branch after replay.
 - Continuing would require destructive git operations such as `git reset --hard`, `git checkout -- <path>`, deleting branches, or plain force-pushing.
 
 When stopped, state the blocker, what was already done, and the smallest user decision or credential needed to continue.

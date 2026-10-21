@@ -154,7 +154,7 @@ function select-repo() {
     {
         cd $root
         ein --quiet t find
-    } | sk -q "$1"
+    } | sk --scheme path -q "$1"
 }
 
 function cd-repo() {

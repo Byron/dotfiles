@@ -1,6 +1,6 @@
 ---
 name: issue-full-auto
-description: "Work a GitHub issue URL, GitHub security advisory URL, or plain-text issue report end to end in full-auto mode from a user-prepared pristine non-base worktree: verify the local clone and remote, refuse if the starting worktree is not set or is not clean, write a regression test, fix the issue, create Git commits with Codex authorship, run one Codex review per commit, push the current branch explicitly, open a GitHub PR as Byron with disclosure, then invoke pr-full-auto for CI and review follow-up. Use when the user asks Codex to fix, implement, or work on a GitHub issue, advisory, or issue-like report automatically."
+description: "Work a GitHub issue URL, GitHub security advisory URL, or plain-text issue report end to end in full-auto mode from a user-prepared pristine non-base worktree: verify the local clone and remote, refuse if the starting worktree is not set or is not clean, write a regression test, fix the issue, create Git commits with Codex authorship, run one Codex review per commit, push the current branch explicitly, open a GitHub PR as Byron with disclosure, then invoke pr-full-auto for CI and review follow-up. Use when the user asks Codex to fix, implement, or work on a GitHub issue, advisory, or issue-like report automatically. After completion, follow-up prompts stay local unless the user explicitly requests new GitHub work."
 ---
 
 # Issue Full Auto
@@ -10,6 +10,12 @@ description: "Work a GitHub issue URL, GitHub security advisory URL, or plain-te
 Treat this skill as permission to take a GitHub issue URL, GitHub security advisory URL, or plain-text issue report from report to pull request only from a user-prepared pristine worktree: inspect the issue context, verify the starting worktree, reproduce the problem with a test, implement the fix, validate it, create Git commits, push the current branch explicitly, open a PR, and then use `pr-full-auto` to drive the PR through CI and review.
 
 Do not merge the PR, close the issue manually, bypass branch protection, create or switch worktrees, change directories away from the starting worktree, or perform destructive git operations unless the user explicitly asks.
+
+## Workflow Lifetime
+
+GitHub authorization applies to the current run, including the `pr-full-auto` handoff. Once all requested PR work is complete, state that the PR workflow is finished and later prompts default to local work; preserve that state in any continuation summary. A handoff or temporary blocker is not completion.
+
+After completion, follow the new prompt and the repository's local workflow, including the `tix` skill for Tix-managed history work. Do not read or write GitHub, poll CI or reviews, or fetch, pull, or push GitHub remotes unless the user explicitly requests new GitHub work. Local edits, tests, commits, or a generic "continue" do not reactivate this workflow. A new GitHub request authorizes only the requested scope.
 
 ## Resolve Context
 
@@ -40,11 +46,13 @@ Do not merge the PR, close the issue manually, bypass branch protection, create 
    - In advisory-backed mode, verify that the remote matches the advisory repository. Prefer the remote whose URL corresponds to the advisory repo; use that remote for push and PR creation.
    - In plain-text report mode, verify that a pushable GitHub remote exists and use that remote for push and PR creation.
 7. Inspect local state with `git status --short`. Treat existing local changes as user-owned. Stop if they conflict with the issue work.
-8. Confirm the clone is sufficiently current for the target base branch. Fetch remote metadata if needed, but do not rebase, reset, or discard local work without explicit user approval.
+8. Confirm the clone is sufficiently current for the target base branch. Fetch remote metadata if needed, but do not change the base, reset, or discard local work without explicit user approval. In-scope Tix amendments and replay follow the shared workflow below.
 
 ## Starting Worktree
 
 The starting directory is the only allowed worktree for this skill. Do not run `cd`, `pushd`, `git -C`, `git worktree add`, `git worktree remove`, `git switch`, or `git checkout` to move the work elsewhere. Record the starting path with `pwd`, use that exact path as `workdir` for every later command, and refuse to continue if the starting path is not set, not a Git worktree, not pristine, or on a base/release branch. The current branch is the work branch for the run; do not require it to match a derived `fix/...` name.
+
+Tix may travel within this work branch's history in the same worktree and temporarily detach `HEAD`. Record the prepared branch name at entry and restore it after replay, before pushing or finishing. The initial branch checks below do not prohibit that Tix travel.
 
 1. Treat the current branch name as the prepared work branch. A `fix/<slug>-<issue-number>` or `fix/<slug>-<ghsa-id>` branch name is recommended when the user is preparing a worktree, but it is not required and must not be used as a reason to stop.
 2. Verify the starting worktree before editing or committing:
@@ -72,7 +80,7 @@ The starting directory is the only allowed worktree for this skill. Do not run `
 
 ## Fix Workflow
 
-1. Read the issue and relevant code before editing. Search with `rg` first.
+1. Read the issue and relevant code before editing. Search with `rg` first. In Tix-managed checkouts, read the available `tix` skill and the shared [Tix workflow](../pr-full-auto/references/tix-workflow.md), then select and reach the target before writing tests or changing code. Repeat that selection before addressing review findings.
 2. Write a failing regression test that reproduces the issue before implementing the fix.
 3. In advisory-backed mode, think beyond the single scenario named in the advisory: identify similar attack vectors, adjacent inputs, variant encodings, alternate call paths, and shared helpers that express the same exploit class. Prefer a general prevention that closes the broader class when it is coherent and proportional, and add regression coverage for the representative variants without disclosing sensitive exploit details unnecessarily.
 4. If the issue is related to git behavior, inspect `/Users/byron/dev/github.com/git/git` as the desired-behavior reference rather than relying only on the issue report. Record the relevant Git baseline, command behavior, test, commit, or source reference for the eventual commit message.
@@ -86,11 +94,11 @@ The starting directory is the only allowed worktree for this skill. Do not run `
 
 ## Commit Rules
 
-Use standard Git commits for all commits created by this skill.
+For Tix, use the operation and placement selected before editing, including its exact fixup subject and required note. The `git commit` examples and append-only rules below apply only to non-Tix checkouts. Use explicit Codex authorship for new independent commits and fixups; amendments and replay follow Tix's authorship rules.
 
-Before creating any commit, run `pwd` and `git branch --show-current`. The path must be the recorded starting worktree, and the branch must be the same current branch recorded during starting-worktree verification. If either check fails, stop immediately.
+Before each mutation, verify the recorded worktree path. For Tix, verify the selected target with `tix show`; temporary detachment is allowed. For non-Tix commits, `git branch --show-current` must still match the recorded work branch. Stop on an unexpected path or target.
 
-1. Stage only the intentional files and create the first commit:
+1. Stage only the intentional files and apply the selected Tix operation, or create a Git commit in a non-Tix checkout:
 
    ```bash
    git add <files>
@@ -104,13 +112,13 @@ Before creating any commit, run `pwd` and `git branch --show-current`. The path 
    ```
 
 3. Write a descriptive commit message:
-   - Title: concise user-visible fix.
-   - In URL-backed mode, if this first patch is related to the issue fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
+   - For a new non-fixup commit, use a concise user-visible fix title. Tix fixups retain their exact `fixup!` subject.
+   - In URL-backed mode, if the first new non-fixup commit is related to the issue fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
    - Body: issue summary, failing test/reproduction, fix rationale, validation run.
    - In advisory-backed mode, reference the GHSA ID and include only the advisory details needed to understand the fix. Avoid reproducing sensitive exploit details unless they are already public and necessary.
    - In plain-text report mode, include a concise summary of the user-provided report rather than a GitHub issue reference.
    - For git-related issues: include the Git baseline/reference details found during research.
-4. Get the new commit hash, then run exactly once for that hash:
+4. For Tix, restore the work branch through replay and resolve the final hashes of new or amended commits from their change IDs. For each new or amended commit, run exactly once for its final hash:
 
    ```bash
    codex review --commit <hash>
@@ -118,22 +126,22 @@ Before creating any commit, run `pwd` and `git branch --show-current`. The path 
 
    Do not also run `codex review --uncommitted`, and do not rerun review for the same commit hash.
 5. Address substantive review findings. Ignore only findings that are clearly false positives or unrelated to the task, and mention that judgment in the final summary.
-6. Commit review fixes as a new commit with explicit Codex authorship:
+6. For review fixes, use Tix's target selection and amendment/fixup rules again. In non-Tix checkouts, create a new commit with explicit Codex authorship:
 
    ```bash
    git add <files>
    git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
    ```
 
-   Use the fallback author if needed, then run one Codex review for the new commit hash.
+   Use the fallback author for new commits if needed, then repeat step 4 for each new or amended commit.
 7. Include only intentional issue-related files in each commit.
-8. Do not amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
+8. In non-Tix checkouts, do not amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
 9. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
 
 ## Pull Request
 
 1. Before pushing, confirm again that `pwd` is the recorded starting worktree and `git branch --show-current` is the same current branch recorded during starting-worktree verification. Never push from `main`, `master`, or any branch whose upstream is a base branch.
-2. Push explicitly to the selected target remote and current branch name:
+2. For Tix, follow the shared [push procedure](../pr-full-auto/references/tix-workflow.md#push-the-restored-branch) using the selected remote and recorded work branch. For non-Tix checkouts, push explicitly:
 
    ```bash
    git push <remote> HEAD:refs/heads/<current-branch>
@@ -168,7 +176,7 @@ Before creating any commit, run `pwd` and `git branch --show-current`. The path 
    - Keep the PR body sanitized if the advisory is private, embargoed, or includes details that should not be publicly disclosed.
 8. In plain-text report mode, include the exact user-provided issue text in the PR body under a `Reported issue` section instead of an issue URL or `Fixes`/`Refs` line.
 9. Include a concise test summary and any notable Git reference/baseline details. Summarize changes by issue, behavior, files, tests, commit title, or short SHA.
-10. After the PR exists, invoke the `pr-full-auto` skill on the PR URL to monitor CI, inspect reviews, address non-nit feedback, push follow-up commits, and continue until green or blocked.
+10. After the PR exists, invoke the `pr-full-auto` skill on the PR URL to monitor CI, inspect reviews, address non-nit feedback, push updates, and continue until green or blocked.
 
 ## Stop Conditions
 
@@ -197,5 +205,5 @@ Finish when:
 - The branch was pushed with an explicit `HEAD:refs/heads/<current-branch>` refspec, not via upstream tracking.
 - Codex review was run only after commits existed, exactly once per commit hash, or any inability to run it is explained.
 - Relevant tests and validation were run, or unavailable validation is explained.
-- `pr-full-auto` has taken over the PR, or a blocker prevents handoff.
+- `pr-full-auto` has completed CI and review follow-up.
 - The final response summarizes the branch, PR URL, commits, validation, and any residual risk.

@@ -13,8 +13,40 @@
         "api_url": "https://openai-instance-g2.services.ai.azure.com/openai/v1",
         "available_models": [
           {
+            "name": "gpt-6.1-sol",
+            "max_tokens": 240000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "reasoning_effort": "medium",
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": true,
+              "chat_completions": false,
+              "interleaved_reasoning": false,
+              "max_tokens_parameter": false,
+            },
+          },
+          {
             "name": "gpt-5.6-sol",
             "max_tokens": 200000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "reasoning_effort": "medium",
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": true,
+              "chat_completions": false,
+              "interleaved_reasoning": false,
+              "max_tokens_parameter": false,
+            },
+          },
+          {
+            "name": "gpt-6-astra",
+            "max_tokens": 250000,
             "max_output_tokens": 32000,
             "max_completion_tokens": 200000,
             "reasoning_effort": "medium",
@@ -67,16 +99,7 @@
     "dock": "right",
   },
   "excerpt_context_lines": 4,
-  "agent_servers": {
-    "codex-acp": {
-      "default_config_options": {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high",
-        "mode": "agent",
-      },
-      "type": "registry",
-    },
-  },
+  "agent_servers": {},
   "outline_panel": {
     "dock": "left",
     "indent_guides": {
@@ -117,16 +140,17 @@
   },
   "remove_trailing_whitespace_on_save": false,
   "agent": {
+    "threads_sidebar": {
+      "position": "left"
+    },
+    "terminal_init_command": "",
     "sandbox_permissions": {
       "allow_unsandboxed": true,
-      "network_hosts": [
-        "raw.githubusercontent.com"
-      ]
+      "network_hosts": ["raw.githubusercontent.com"],
     },
     "auto_compact": {
       "threshold": "90%",
     },
-    "sidebar_side": "left",
     "flexible": true,
     "message_editor_min_lines": 4,
     "expand_terminal_card": true,
@@ -172,10 +196,10 @@
     "dock": "right",
     "default_profile": "allow-all",
     "default_model": {
-      "effort": "high",
+      "effort": "medium",
       "enable_thinking": true,
       "provider": "Azure",
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6.1-sol",
     },
     "favorite_models": [],
     "inline_assistant_model": {

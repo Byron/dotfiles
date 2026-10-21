@@ -1,6 +1,6 @@
 ---
 name: pr-from-session
-description: Create a GitHub draft pull request from the current branch and session context. Use when the user asks Codex to create a PR from the current session, including creating a Git commit from intended local changes with Codex authorship, and writing a PR body that explains the goals, prompts, constraints, decisions, and validation. Always target and push to `origin`, create draft PRs by default, and disclose that the PR was created on behalf of Byron for Byron to review.
+description: Create a GitHub draft pull request from the current branch and session context. Use when the user asks Codex to create a PR from the current session, including creating a Git commit from intended local changes with Codex authorship, and writing a PR body that explains the goals, prompts, constraints, decisions, and validation. Always target and push to `origin`, create draft PRs by default, and disclose that the PR was created on behalf of Byron for Byron to review. After completion, follow-up prompts stay local unless the user explicitly requests new GitHub work.
 ---
 
 # PR From Session
@@ -9,7 +9,13 @@ description: Create a GitHub draft pull request from the current branch and sess
 
 Treat this skill as permission to turn the current session's intended local changes into a Git commit and GitHub pull request. Use the active conversation/session plus local git state to write a PR description that explains what the PR is supposed to do and why.
 
-Do not amend, rebase, rewrite pre-existing commits, change branches, create worktrees, or push to any remote other than `origin`.
+Work only in the current worktree and push only to `origin`. Tix travel, amendments, fixups, and replay within the work branch follow the shared workflow below. Otherwise, do not amend, rebase, rewrite pre-existing commits, or change branches. Do not create worktrees.
+
+## Workflow Lifetime
+
+GitHub authorization applies to the current run, including any explicitly requested CI or review handoff. Once all requested PR work is complete, state that the PR workflow is finished and later prompts default to local work; preserve that state in any continuation summary. A handoff or temporary blocker is not completion.
+
+After completion, follow the new prompt and the repository's local workflow, including the `tix` skill for Tix-managed history work. Do not read or write GitHub, poll CI or reviews, or fetch, pull, or push GitHub remotes unless the user explicitly requests new GitHub work. Local edits, tests, commits, or a generic "continue" do not reactivate this workflow. A new GitHub request authorizes only the requested scope.
 
 ## Resolve Context
 
@@ -46,14 +52,15 @@ Do not amend, rebase, rewrite pre-existing commits, change branches, create work
 
 6. If local changes are mixed or include files unrelated to the current session, stage only the files that clearly belong to the session. If ownership is unclear, stop and ask the user which files belong in the PR.
 7. If a PR already exists for the current branch, report the existing PR instead of creating a duplicate unless the user explicitly asks for another PR.
+8. In Tix-managed checkouts, read the available `tix` skill and the shared [Tix workflow](../pr-full-auto/references/tix-workflow.md) before further editing or commit operations. Use session intent to select the target and operation; preserve intended local changes according to Tix before any required travel.
 
 ## Commit Creation
 
-Use standard Git for the commit created by this skill.
+For Tix, use the selected amendment, fixup, or new commit with its required placement, exact fixup subject, and note. The `git commit` examples and append-only rules below apply only to non-Tix checkouts. Use explicit Codex authorship for new independent commits and fixups; amendments and replay follow Tix's authorship rules.
 
 1. Stage intended session changes explicitly. Prefer file-specific staging. Use `git add -A` only when all local changes clearly belong to the current session.
 2. If there are no staged changes and no existing branch commits relative to the base, stop because there is nothing to PR.
-3. Create the commit with explicit Codex authorship:
+3. Apply the selected Tix operation. In a non-Tix checkout, create the commit with explicit Codex authorship:
 
    ```bash
    git commit --author="$model_name $model_version <codex@openai.com>" -m "<message>"
@@ -66,16 +73,16 @@ Use standard Git for the commit created by this skill.
    ```
 
 5. Write a descriptive commit message:
-   - Title: concise user-visible change.
-   - If an issue number is known and this commit is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
+   - For a new non-fixup commit, use a concise user-visible change title. Tix fixups retain their exact `fixup!` subject.
+   - If an issue number is known and the new non-fixup commit is related to that issue's fix, append `ISSUE_SUFFIX` to the title, where `ISSUE_SUFFIX` is `(#<issue-number>)`; for example, `fix: handle phantom submodule modifications (#2585)`.
    - Body: session goal, relevant prompt/context, implementation summary, and validation run.
 6. Include only intentional session-related files in the commit.
 7. Do not add Byron as co-author for Codex-created work. Add co-author trailers only when the user explicitly contributed included code or text.
-8. Never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
+8. In non-Tix checkouts, never amend, squash into, or otherwise rewrite a commit that Codex did not create during the current task.
 
 ## Pull Request Creation
 
-1. After the commit is created, or after confirming the branch already contains all intended commits, push the current branch to `origin`:
+1. After recording the changes, or confirming the branch already contains all intended commits, push to `origin`. For Tix, restore the recorded work branch and follow the shared [push procedure](../pr-full-auto/references/tix-workflow.md#push-the-restored-branch) with `origin` and that branch as the target. For non-Tix checkouts:
 
    ```bash
    git push -u origin "$(git branch --show-current)"
@@ -151,7 +158,7 @@ Stop and report the blocker when:
 - A PR already exists for the current branch and the user did not explicitly ask for another.
 - Pushing to `origin` fails.
 - Creating a PR would require pushing to a fork or any remote other than `origin`.
-- The next step would amend, rebase, rewrite pre-existing history, delete branches, or force-push.
+- The next step would delete branches, use an unguarded force-push, or rewrite history outside the shared Tix workflow. In non-Tix checkouts, amendments, rebases, and rewriting pre-existing history remain out of scope.
 
 ## Completion Criteria
 
