@@ -23,7 +23,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     set -l url $pr_info[2]
     set -l title (string replace -ar '[[:cntrl:]]' ' ' -- $pr_info[3])
 
-    echo "Watching $url every 14 seconds."
+    echo "Watching $url every 12 seconds."
     echo 'Will stop and notify when the PR is merged or CI finishes.'
     if test "$auto_merge" = true
         echo 'Successful CI will trigger a merge.'
@@ -54,7 +54,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
             return $cleanup_status
         end
 
-        set -l ci_failed (gh pr checks "$url" --json bucket \
+        set -l ci_failed (gh pr checks "$url" --required --json bucket \
             --jq 'any(.[]; .bucket == "fail" or .bucket == "cancel")' 2>/dev/null)
 
         if test "$ci_failed" = true
@@ -92,7 +92,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
         end
 
         printf '.'
-        sleep 14
+        sleep 12
         printf '\e]9;4;3\e\\'
     end
 end

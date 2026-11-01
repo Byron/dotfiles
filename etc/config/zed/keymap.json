@@ -109,5 +109,55 @@
     "unbind": {
       "shift-enter": "inline_assistant::SendToThread"
     }
+  },
+  {
+    "context": "ImageViewer",
+    "unbind": {
+      "cmd-=": "image_viewer::ZoomIn"
+    }
+  },
+  {
+    "context": "ImageViewer",
+    "bindings": {
+      "cmd-=": "image_viewer::ZoomIn"
+    }
+  },
+  {
+    "context": "ImageViewer",
+    "unbind": {
+      "cmd-+": "image_viewer::ZoomIn"
+    }
+  },
+  {
+    "unbind": {
+      "cmd-=": [
+        "zed::IncreaseBufferFontSize",
+        {
+          "persist": false
+        }
+      ]
+    }
+  },
+  {
+    "context": "Onboarding",
+    "unbind": {
+      "cmd-=": [
+        "zed::IncreaseUiFontSize",
+        {
+          "persist": false
+        }
+      ]
+    }
+  },
+  {
+    "context": "Welcome",
+    "unbind": {
+      "cmd-=": [
+        "zed::IncreaseUiFontSize",
+        {
+          "persist": false
+        }
+      ]
+    }
   }
 ]

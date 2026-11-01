@@ -99,6 +99,7 @@ keybind = super+ctrl+l=goto_split:quadrant_right
 keybind = cmd+shift+f=toggle_quadrant_zoom
 keybind = cmd+shift+o=toggle_outliner
 keybind = cmd+alt+p=toggle_pin
+keybind = cmd+alt+r=toggle_quad_root
 
 keybind = cmd+shift+1=unbind
 keybind = cmd+ctrl+1=goto_pin:1
@@ -111,7 +112,22 @@ keybind = cmd+ctrl+4=goto_pin:4
 keybind = cmd+shift+5=unbind
 keybind = cmd+ctrl+5=goto_pin:5
 
+
+
+background-opacity = 1.0
+
 stream-deck = true
+session-dump-on-quit = checked
+window-animations = true
+
+quad-zoom-animation-duration = 150ms
+quad-peek-animation-duration = 75ms
+zoom-animation-duration = 150ms
+zoom-from-quad-animation-duration = 100ms
+split-animation-duration = 100ms
+zoom-animation-background-mix = 50%
+tab-frame-color-mix = 35%
+unfocused-tab-saturation = 5%
 
 command = direct:/Users/byron/.cargo/bin/fish --interactive-language=bash 
 # For speed-reference (instant)
@@ -120,9 +136,11 @@ command = direct:/Users/byron/.cargo/bin/fish --interactive-language=bash
 tmuxx-connection = Azure Linux = ssh:20.240.208.217
 tmuxx-ssh-command-host = 20.240.208.217 = /home/byron/.cargo/bin/tmuxx -L rustty --native-stdio
 tmuxx-theme-session = work = 0x96f
-
+tmuxx-ssh-env-command-host = 20.240.208.217 = AZURE_OPENAI_API_KEY = security find-generic-password -s azure-openai-codex-linux -w
 
 
 tmuxx-connection = Azure Windows = ssh:byron@20.240.62.172
-tmuxx-ssh-command-host = byron@20.240.62.172 = & "C:/Users/byron/Desktop/dev/ghostty/target/release/Rustty/rustty.exe" tmux --native-stdio | ForEach-Object { $_ }
-tmuxx-theme-session = rustty-18324-296 = GitHub Dark High Contrast
+tmuxx-ssh-command-host = byron@20.240.62.172 = & "C:/Users/byron/Desktop/dev/ghostty/target/release/Rustty/tmuxx.exe" --native-stdio
+tmuxx-ssh-env-command-host = byron@20.240.62.172 = AZURE_OPENAI_API_KEY = security find-generic-password -s azure-openai-codex-windows -w
+tmuxx-theme-session = rustty-11800-442 = GitHub Dark High Contrast
+tmuxx-theme-session = rustty-9644-539 = Cobalt Neon

@@ -7,6 +7,8 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "buffer_font_size": 14.0,
+  "default_open_behavior": "new_window",
   "language_models": {
     "openai_compatible": {
       "Azure": {
@@ -70,13 +72,12 @@
   },
   "zoom": 100,
   "ui_font_size": 16.0,
-  "agent_buffer_font_size": 13.0,
   "agent_ui_font_size": 16.0,
   "minimap": {
     "show": "auto",
   },
   "terminal": {
-    "font_size": 13.0,
+    "font_size": 12.0,
     "dock": "bottom",
   },
   "show_edit_predictions": false,
@@ -119,7 +120,6 @@
       },
     },
   },
-  "buffer_font_size": 13.0,
   "diff_view_style": "unified",
   "search": {
     "center_on_match": true,
@@ -196,10 +196,10 @@
     "dock": "right",
     "default_profile": "allow-all",
     "default_model": {
-      "effort": "medium",
+      "effort": "high",
       "enable_thinking": true,
       "provider": "Azure",
-      "model": "gpt-6.1-sol",
+      "model": "gpt-6-astra",
     },
     "favorite_models": [],
     "inline_assistant_model": {
