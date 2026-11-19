@@ -67,6 +67,7 @@ unfocused-split-opacity = 0.85
 quadrant-peek-opacity = 0.60
 unfocused-split-fill = #101010
 split-divider-color = #5a5a5a
+background-git = true
 keybind = global:ctrl+super+backquote=toggle_quick_terminal
 
 # Helix terminal compatibility
@@ -128,6 +129,7 @@ split-animation-duration = 100ms
 zoom-animation-background-mix = 50%
 tab-frame-color-mix = 35%
 unfocused-tab-saturation = 5%
+quad-root-dim = 25%
 
 command = direct:/Users/byron/.cargo/bin/fish --interactive-language=bash 
 # For speed-reference (instant)

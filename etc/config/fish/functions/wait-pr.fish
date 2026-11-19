@@ -22,6 +22,14 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     set pr $pr_info[1]
     set -l url $pr_info[2]
     set -l title (string replace -ar '[[:cntrl:]]' ' ' -- $pr_info[3])
+    set -l failure_filter false
+    if string match -qi 'https://github.com/GitoxideLabs/gitoxide/pull/*' -- "$url"
+        # Tests pass only runs after all matrix jobs it depends on have finished.
+        # shortcut: Optional job names are listed here, update them when the QA matrix changes.
+        set failure_filter '.workflow == "ci" and .event == "pull_request"
+            and (.bucket == "fail" or .bucket == "cancel")
+            and (.name | test("^(Consumer / |(advisories|size|wasm)@)") | not)'
+    end
 
     echo "Watching $url every 12 seconds."
     echo 'Will stop and notify when the PR is merged or CI finishes.'
@@ -54,20 +62,24 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
             return $cleanup_status
         end
 
-        set -l ci_failed (gh pr checks "$url" --required --json bucket \
-            --jq 'any(.[]; .bucket == "fail" or .bucket == "cancel")' 2>/dev/null)
+        set -l ci_status (gh pr checks "$url" --required --json bucket \
+            --jq 'if any(.[]; .bucket == "fail" or .bucket == "cancel") then "failed" else empty end' 2>/dev/null)
 
-        if test "$ci_failed" = true
+        if test "$ci_status" != failed
+            set ci_status (gh pr checks "$url" --json bucket,event,name,workflow \
+                --jq "if any(.[]; $failure_filter) then \"failed\"
+                    elif length > 0 and all(.[]; .bucket != \"pending\") then \"done\"
+                    else empty end" 2>/dev/null)
+        end
+
+        if test "$ci_status" = failed
             printf '\e]9;❌ PR #%s CI failed: %s\e\\' "$pr" "$title"
             echo ' ❌ CI failed or was cancelled'
             printf '\e]9;4;0\e\\'
             return 1
         end
 
-        set -l ci_done (gh pr checks "$url" --json bucket \
-            --jq 'length > 0 and all(.[]; .bucket != "pending")' 2>/dev/null)
-
-        if test "$ci_done" = true
+        if test "$ci_status" = done
             if test "$auto_merge" = true
                 if test "$merge_requested" = false
                     echo ' ✅ CI finished; requesting merge'
