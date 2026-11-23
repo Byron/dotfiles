@@ -200,7 +200,7 @@
     "dock": "right",
     "default_profile": "allow-all",
     "default_model": {
-      "effort": "medium",
+      "effort": "high",
       "enable_thinking": true,
       "provider": "Azure",
       "model": "gpt-6.2-sol",

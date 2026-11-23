@@ -1,6 +1,6 @@
 ---
 name: gh-monthly
-description: Create Gitoxide monthly report outlines from GitHub and local git activity. Use when Byron asks for gh-monthly, a Gitoxide monthly report outline, or preparation for the report usually created around the 22nd. The skill uses `gh` to inspect all GitHub activity since the prior report or its last covered release, reads `/Users/byron/dev/github.com/GitoxideLabs/gitoxide` for git history and `etc/reports` samples, and incorporates must-include topics with summaries of how they were covered in the prior report.
+description: Create and save Gitoxide monthly report outlines from GitHub and local git activity. Use when Byron asks for gh-monthly, a Gitoxide monthly report outline, or preparation for the report usually created around the 22nd. The skill uses `gh` to inspect all GitHub activity since the prior report or its last covered release, reads `/Users/byron/dev/github.com/GitoxideLabs/gitoxide` for git history and `etc/reports` samples, and incorporates must-include topics with summaries of how they were covered in the prior report.
 ---
 
 # GH Monthly
@@ -15,7 +15,8 @@ Create an outline for a Gitoxide monthly report. Produce a full draft only if ex
 - The reporting window starts immediately after the prior report's effective cutoff and ends at the current cutoff, usually today around the 22nd.
 - If the prior cutoff is unclear, use the latest project release covered by the prior report, even when it was published after the nominal report date. Treat its publication timestamp as an exclusive lower bound so neither that release nor its release activity is repeated in the new report.
 - Release data is boundary bookkeeping, not report material. Do not add release sections, tag lists, or version rollups unless Byron explicitly asks for them.
-- Target report path is `etc/reports/YY-MM.md`.
+- Write the outline to `etc/reports/YY-MM.md` in the current Gitoxide worktree. If invoked outside a Gitoxide worktree, use the default checkout. Honor a destination the user specifies.
+- If the target already exists, use it as the starting point and preserve the user's edits. Provide chat-only output when the user explicitly requests it.
 - Use `etc/reports` as the style and structure reference.
 
 ## Inputs
@@ -33,7 +34,7 @@ Do not ask for topics. If none are provided, infer topics from GitHub and git ac
 
 ## Data Gathering
 
-Run all commands from the local checkout unless another path is explicitly provided:
+Run the research commands from the default checkout unless the user specifies a different source checkout.
 
 ```sh
 cd /Users/byron/dev/github.com/GitoxideLabs/gitoxide
@@ -96,11 +97,11 @@ Keep uncertainty visible. If GitHub or local history is incomplete, say what cou
    - recurring contributor threads
 6. Place must-include topics first unless the monthly narrative clearly needs another lead.
 7. Add secondary sections only if they strengthen the report.
-8. Produce a writable outline, not a research dump.
+8. For file output, save the Markdown, verify that the file exists at the chosen path, and link to it in the reply.
 
 ## Output Format
 
-Return Markdown:
+Use this Markdown structure.
 
 ```markdown
 # Outline for etc/reports/YY-MM.md

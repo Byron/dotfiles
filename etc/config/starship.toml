@@ -176,11 +176,3 @@ disabled = true
 
 [zig]
 disabled = true
-
-[git_repo_color]
-symbol = " "
-format = "[$symbol]($style)"
-fallback_styles = [
-  "bg:red", "bg:yellow", "bg:green", "bg:cyan", "bg:blue", "bg:purple",
-  "bg:bright-red", "bg:bright-yellow", "bg:bright-green", "bg:bright-cyan", "bg:bright-blue", "bg:bright-purple",
-]
