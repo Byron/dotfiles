@@ -1,3 +1,8 @@
+# Make Cargo-installed tools available before initializing the prompt.
+if test -d "$HOME/.cargo/bin"
+    fish_add_path --global --path "$HOME/.cargo/bin"
+end
+
 if status is-interactive
     set -gx STARSHIP_CONFIG "$HOME/.dotfiles/etc/config/starship.toml"
     if command -q starship
@@ -71,10 +76,6 @@ end
 if command -q gpg-connect-agent
     # One connection starts the SSH agent and updates pinentry's terminal when available.
     gpg-connect-agent $gpg_agent_commands >/dev/null 2>/dev/null
-end
-
-if test -d "$HOME/.cargo/bin"
-    fish_add_path -g "$HOME/.cargo/bin"
 end
 
 if test -d "$HOME/.npm-global/bin"
