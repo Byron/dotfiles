@@ -10,7 +10,8 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     set -l merge_requested false
     set -l ci_done_seen false
 
-    set -l pr_info (gh pr view $pr --json number,url,title --jq '.number, .url, .title' 2>/dev/null)
+    set -l pr_info (gh pr view $pr --json number,url,title \
+        --jq '.number, .url, (.title | gsub("[[:cntrl:]]"; " "))' 2>/dev/null)
     if test (count $pr_info) -ne 3
         if test -n "$pr"
             echo "wait-pr: could not find PR #$pr" >&2
@@ -21,7 +22,7 @@ function wait-pr --description 'Wait for a PR to finish CI or be merged'
     end
     set pr $pr_info[1]
     set -l url $pr_info[2]
-    set -l title (string replace -ar '[[:cntrl:]]' ' ' -- $pr_info[3])
+    set -l title $pr_info[3]
     set -l failure_filter false
     if string match -qi 'https://github.com/GitoxideLabs/gitoxide/pull/*' -- "$url"
         # Tests pass only runs after all matrix jobs it depends on have finished.
